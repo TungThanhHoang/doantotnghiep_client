@@ -1,0 +1,193 @@
+.detail-bill {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.detail-bill .info-order {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.detail-bill .info-order .code-order {
+    color: var(--color-price);
+    margin-left: .5rem;
+}
+
+.detail-bill .info-order .date-order {
+    color: var(--color-gray);
+    border-right: 1px solid var(--color-border);
+    padding-right: .5rem;
+}
+
+.detail-bill .status-order {
+    display: flex;
+    align-items: center;
+}
+
+.detail-bill .status-order .title-status {
+    padding-left: .5rem;
+    text-transform: uppercase;
+    color: var(--color-price);
+}
+
+.detail-bill .card-wrap {
+    margin-top: .9rem;
+}
+
+.detail-bill .card-order__info {
+    background-color: antiquewhite;
+    border-radius: 8px;
+    padding: .8rem;
+    margin: 3px;
+    height: 127px;
+    margin-top: 1rem;
+}
+
+.detail-bill .card-order__info .phone-user {
+    font-weight: 500;
+    margin-left: .5rem;
+}
+
+.detail-bill .card-order__info .address-delivery {
+    margin-left: .5rem;
+    counter-reset: var(--color-gray);
+}
+
+.detail-bill .card-order__info .payments {
+    display: flex;
+    align-items: center;
+}
+
+.detail-bill .card-order__info .payments img {
+    margin-right: 10px;
+}
+
+
+/*  card product */
+
+.detail-bill .card-title__wrap {
+    margin-top: 2rem;
+    border: 1px solid var(--color-border);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.card-title__wrap .title-column {
+    text-align: center;
+    font-weight: 500;
+    color: var(--color-gray);
+}
+
+.detail-bill .product-order {
+    border: 1px solid var(--color-border);
+    margin-top: 8px;
+    border-radius: 8px;
+}
+
+.detail-bill .row-product {
+    align-items: center;
+    padding: 10px;
+}
+
+.detail-bill .card-product {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+}
+
+.detail-bill .card-product img {
+    margin-right: 8px;
+}
+
+.title-wrap {
+    text-align: right;
+    margin-right: 2.4rem;
+    color: var(--color-gray);
+}
+
+
+/*  detail price  */
+
+.detail-price {
+    margin: 1rem;
+}
+
+.detail-price .number-column {
+    text-align: end;
+}
+
+.detail-price .column-title {
+    color: var(--color-gray);
+    margin-bottom: 5px;
+}
+
+.detail-bill .total-price {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.detail-bill .price-order {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--color-price);
+}
+
+.card-thank {
+    padding: 1rem .2rem;
+    /* border: 1px solid var(--color-border); */
+    /* border-radius: 10px; */
+}
+
+.card-thank span {
+    font-size: 15px;
+    color: var(--color-gray);
+}
+
+.card-thank button {
+    background-color: var(--color-price);
+    margin-right: .5rem;
+    border: none;
+    padding: .5rem 2rem;
+    border-radius: .4rem;
+    color: #fff;
+    font-weight: 500;
+    float: right;
+    cursor: pointer;
+}
+
+.card-thank button:hover {
+    opacity: .8;
+}
+
+.view-qr {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.title-qr {
+    color: var(--color-font-two);
+    margin-left: .3rem;
+    font-weight: 500;
+}
+
+@media screen and (max-width: 768px) {
+    .detail-bill {
+        padding: .4rem;
+    }
+    .title-wrap {
+        margin-right: 1.2rem;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .detail-bill .card-title__wrap {
+        display: none;
+    }
+    .title-wrap {
+        text-align: left;
+        margin: .2rem 2rem;
+    }
+}

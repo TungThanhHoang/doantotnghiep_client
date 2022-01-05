@@ -1,0 +1,149 @@
+.modal-filter {
+    position: absolute;
+    height: calc(100vh - 60px);
+    z-index: 999;
+    background-color: #fff;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+.category .main-left {
+    background-color: var(--color-font);
+    /* padding: 1rem; */
+    border-radius: 8px;
+}
+
+.category .main-right {
+    margin-left: 1rem;
+    /* background-color: var(--color-font); */
+    border-radius: 8px;
+}
+
+.category .title-filter {
+    font-weight: 500;
+    color: var(--color-font-two);
+    margin: 0 0 1rem 0;
+}
+
+.category-wrap .result-filter {
+    padding: 20px 0;
+}
+
+.category-wrap .btn-filter {
+    border: none;
+    padding: .5rem 1.5rem;
+    border-radius: 10px;
+    background-color: var(--color-overlay);
+    color: var(--color-background);
+    transform: translateX(50%);
+    font-weight: 500;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.category-wrap .btn-filter:hover {
+    background-color: var(--color-background);
+    color: #ffff;
+}
+
+.category-wrap .btn-filter__mobile {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.category-wrap .filter-mobile {
+    display: none;
+}
+
+.category-wrap input {
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+}
+
+.category-wrap .checkbox-filter {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.category .main-left_poster {
+    margin-top: 2rem;
+}
+
+
+/* Select View */
+
+
+/* .category .select-view {
+    width: 100%;
+} */
+
+.category .card-select {
+    margin-top: 2rem;
+}
+
+.category .card-select__view {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.category .card-select__view .ant-select {
+    margin: 0;
+}
+
+.category .title-view {
+    margin-top: 1rem;
+    font-weight: 500;
+    font-size: 20;
+}
+
+.ant-slider {
+    touch-action: none;
+}
+
+
+/* Category Product Item  */
+
+
+/* responsive */
+
+@media screen and (max-width: 991px) {
+    .category .main-left {
+        display: none;
+    }
+    .category .main-right {
+        margin: 0;
+    }
+    .category .filter-mobile {
+        display: flex;
+        align-items: center;
+    }
+    .modal-filter {
+        overflow: hidden;
+        position: fixed;
+        display: block;
+    }
+    .modal-filter .filter-mobile__top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+    }
+    .modal-filter .filter-mobile__top .title-filter-mobile {
+        font-size: 18px;
+        font-weight: 500;
+        color: var(--color-gray);
+    }
+}
+
+@media screen and (max-width:360px) {
+    .category .ant-select {
+        width: 80%;
+    }
+}

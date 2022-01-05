@@ -1,0 +1,138 @@
+    .main-user {
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: .2rem;
+    }
+    
+    .main-user .main-wrap {
+        display: flex;
+    }
+    
+    .main-user .main-wrap .detail-user {
+        flex-grow: 0.5;
+    }
+    
+    .main-user .main-wrap .update-password {
+        border-left: 1px solid var(--color-border);
+        padding-left: 1rem;
+    }
+    
+    .main-wrap .update-password .password-wrap {
+        display: flex;
+        align-items: center;
+        margin-top: 2rem;
+    }
+    
+    .main-wrap .update-password .icon-password {
+        font-size: 20px;
+        margin-right: .5rem;
+    }
+    
+    .main-wrap .update-password .password-wrap button {
+        padding: 5px 10px;
+        margin-left: .5rem;
+        background-color: var(--color-background);
+        border: none;
+        border-radius: 4px;
+        font-weight: 500;
+        cursor: pointer;
+        color: var(--color-font);
+    }
+    
+    .detail-user .title-top {
+        border-bottom: 1px solid var(--color-border);
+        padding-bottom: 1rem;
+    }
+    
+    .detail-user .title-name {
+        font-size: 18px;
+        font-weight: 600;
+    }
+    
+    .main-wrap .sub-title {
+        color: rgb(116, 116, 116);
+    }
+    
+    .detail-user .wrap-detail {
+        margin-top: .5rem;
+    }
+    
+    .detail-user .wrap-detail .name-user {
+        display: flex;
+    }
+    
+    .detail-user .wrap-detail .input-field {
+        border: 1px solid var(--color-border);
+        height: 40px;
+        /* margin-right: 1rem; */
+        border-radius: .1rem;
+        padding: .4rem;
+        width: 100%;
+    }
+    
+    .detail-user .wrap-detail .input-field:focus {
+        outline: none;
+        border-color: var(--color-background);
+    }
+    
+    .detail-user .wrap-detail .title-input {
+        margin-right: .5rem;
+        margin-bottom: .4rem;
+        color: rgb(116, 116, 116);
+    }
+    
+    .card-item {
+        margin: .5rem .4rem;
+    }
+    
+    .input-field {
+        width: 100%;
+    }
+    
+    .card-item__address {
+        /* width: 444px; */
+    }
+    
+    .detail-user .wrap-detail .address-user {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .detail-user .wrap-detail .ant-select {
+        width: 100%;
+    }
+    
+    .detail-user .btn-save {
+        margin-top: 2rem;
+        padding: .5rem 2rem;
+        background-color: var(--color-background);
+        border: none;
+        color: var(--color-font);
+        border-radius: .2rem;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    
+    .detail-user .btn-save:hover {
+        opacity: .6;
+    }
+    
+    @media screen and (max-width:992px) {
+        .main-user .main-wrap .update-password {
+            border-top: 1px solid var(--color-border);
+            border-left: none;
+            margin-top: 4rem;
+            padding-left: 0;
+            padding-top: 2rem;
+        }
+    }
+    
+    @media screen and (max-width:768px) {
+        .main-user {
+            padding: .3rem;
+        }
+        .update-password {
+            display: none;
+        }
+    }

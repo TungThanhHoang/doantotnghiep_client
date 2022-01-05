@@ -1,0 +1,125 @@
+.bill-order {
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: .2rem;
+}
+
+.bill-item {
+    border: 1px solid var(--color-border);
+    padding: 1rem;
+    border-radius: .2rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.bill-item:hover {
+    /* opacity: .6; */
+    background-color: rgba(250, 247, 235, 0.6);
+}
+
+.bill-item .state-bill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.bill-item .code-bill {
+    color: var(--color-gray);
+}
+
+.bill-item .state-delivery {
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #e74c3c;
+}
+
+.bill-item .product-item {
+    padding: .5rem;
+    display: flex;
+    align-items: center;
+}
+
+.bill-item .product-item img {
+    width: 80px;
+    height: 80px;
+}
+
+.bill-item .product-item .info-product {
+    padding-left: 1rem;
+}
+
+.bill-item .product-item .info-product .title-product {
+    font-size: 18px;
+}
+
+.bill-item .product-item .info-product .weight-product {
+    font-size: 14px;
+    color: var(--color-gray);
+}
+
+.bill-item .product-item .info-product .quanlity-product {
+    font-weight: 600;
+}
+
+.bill-item .product-item .price-product {
+    font-weight: 600;
+    flex-grow: 1;
+    text-align: right;
+    color: var(--color-gray);
+}
+
+.bill-item .bill-price {
+    border-top: 1px solid var(--color-border);
+    padding-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.bill-item .bill-price .date-order {
+    color: var(--color-gray);
+}
+
+.bill-item .total-price {
+    font-size: 16px;
+    color: var(--color-gray);
+    text-align: right;
+}
+
+.bill-item .total-price span {
+    margin-left: .5rem;
+    font-size: 18px;
+    color: #e74c3c
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: var(--color-background) !important;
+    font-weight: 500;
+}
+
+.ant-tabs-ink-bar {
+    position: absolute;
+    background: var(--color-background);
+    pointer-events: none;
+}
+
+
+/*  empty bill */
+
+.empty-bill {
+    margin: 4rem auto;
+    width: 220px;
+    height: 220px;
+}
+
+.empty-bill .title-empty {
+    text-align: center;
+}
+
+@media screen and (max-width:768px) {
+    .bill-order {
+        padding: .5rem;
+    }
+}

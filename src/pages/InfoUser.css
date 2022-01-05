@@ -1,0 +1,104 @@
+.user-info__left .card-menu__item {
+    background-color: #fff;
+    margin: 8px;
+    border-radius: 8px;
+    margin-right: 1.2rem;
+    border: 1px solid var(--color-border);
+}
+
+.user-info__left .title-menu {
+    color: var(--color-font-two);
+}
+
+.user-info__left .active {
+    background-color: var(--color-overlay);
+}
+
+.user-info__left .active-text {
+    color: #ffff;
+}
+
+.user-info__left .user-info__item {
+    display: flex;
+    align-items: center;
+    padding: .6rem .8rem;
+    font-weight: 400;
+    color: #7f8c8d;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.user-info__left .user-info__item:hover {
+    background-color: var(--color-overlay);
+}
+
+.user-info__left .menu-sub__user {
+    margin-left: 2.2rem;
+}
+
+.user-info__left .menu-sub__user a {
+    display: flex;
+    color: rgb(116, 116, 116);
+    padding: .4rem;
+}
+
+.user-info__left .user-info__item .icon-user {
+    color: #71778E;
+}
+
+.user-info__left .user-info__item .icon-bill {
+    color: #2980b9;
+}
+
+.user-info__left .user-info__item .icon-notify {
+    color: #d35400;
+}
+
+.user-info__left .user-info__item .icon-voucher {
+    color: #e67e22;
+}
+
+.user-info__left img {
+    width: 50px;
+    height: 50px;
+    border-radius: 35px;
+}
+
+.user-info__left .info-detail {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.user-info__left .info-user {
+    margin-left: 1rem;
+}
+
+.user-info__left .info-user div:nth-child(1) {
+    font-weight: 600;
+}
+
+.user-info__left .info-user div:nth-child(2) {
+    display: flex;
+    align-items: center;
+    color: rgb(116, 116, 116);
+}
+
+.user-info__left span {
+    padding-left: .4rem;
+}
+
+.user-info__right {
+    border-radius: .2rem;
+}
+
+@media screen and (max-width:768px) {
+    .main-user {
+        padding: 0;
+    }
+    .menu-user {
+        display: none;
+    }
+}
