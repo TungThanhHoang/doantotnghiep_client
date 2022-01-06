@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import { ProductContext } from "../../../contexts/ProductContext";
 import ProductItem from "./ProductItem";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 function NewProducts() {
   const {
@@ -15,11 +16,11 @@ function NewProducts() {
     formatPrice,
     loadNewProduct,
   } = useContext(ProductContext);
-
+ const  { authState: { user:{ ward }} } = useContext(AuthContext)
   useEffect(() => {
     setTimeout(() => {
       const getToken = localStorage.getItem("ward");
-      const tokenProduct = slug(getToken);
+      const tokenProduct = slug(ward);
       loadNewProduct(tokenProduct);
     });
   }, []);
