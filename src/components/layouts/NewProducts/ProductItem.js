@@ -43,7 +43,7 @@ function ProductItem({
       >
         <img
           className="bg-img img-product"
-          src={`http://localhost:1337` + url}
+          src={url}
           alt=""
           style={{
             width: "100%",

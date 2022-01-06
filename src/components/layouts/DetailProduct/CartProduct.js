@@ -51,7 +51,7 @@ function CardProduct({
                 <div className="feed-back__title">2 BÀI ĐÁNH GIÁ</div>
               </div>
             </div>
-            <Image style={{ width: "100%" }} src={`${apiUrl}${url}`} />
+            <Image style={{ width: "100%" }} src={url} />
           </div>
         </Col>
         <Col xs={24} sm={24} md={24} lg={14} xl={14}>

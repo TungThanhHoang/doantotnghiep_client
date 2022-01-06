@@ -6,7 +6,7 @@ function CheckOutItem({data:{ quanlity , products:{ title , Price ,picture:{ 0:{
   return (
     <>
       <div className="card-product">
-        <img className="bg-img" src={`${apiUrl}${url}`} alt="" />
+        <img className="bg-img" src={url} alt="" />
         <div className="info-product">
           <div className="title-product">{title}</div>
           <div>{`Sl: x${quanlity}`}</div>

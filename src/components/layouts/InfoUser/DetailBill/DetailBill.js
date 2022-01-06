@@ -67,7 +67,7 @@ function DetailBill() {
       <Row className="row-product">
         <Col xs={14} sm={8} md={8} lg={8} xl={8}>
           <div className="card-product">
-            <img src={`${apiUrl}${url}`} alt="" width={70} height={70} />
+            <img src={url} alt="" width={70} height={70} />
             <div>
               <span>{title}</span>
             </div>

@@ -37,7 +37,7 @@ function ListProductCart({
           checked={checkedState[index]}
           onChange={() => handleCheck(index)}
         />
-        <img className="bg-img" src={`${apiUrl}` + url} alt="" />
+        <img className="bg-img" src={url} alt="" />
       </Col>
       <Col xs={13} sm={16} md={19} lg={19} xl={19} className="total-product">
         {/* <Row> */}

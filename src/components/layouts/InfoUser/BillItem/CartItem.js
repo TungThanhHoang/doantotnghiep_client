@@ -17,7 +17,7 @@ function CartItem({
 }) {
   return (
     <div className="product-item">
-      <img src={`${apiUrl}${url}`} alt="" />
+      <img src={url} alt="" />
       <div className="info-product">
         <div className="title-product">{title}</div>
         <div className="weight-product">

@@ -36,7 +36,7 @@ function CategoryProductItem({
     <Col xs={12} sm={8} lg={6} xl={6} className="card-product">
       <div className="card-product__wrap ">
         <Link to={{ pathname: `/product/${id}` }}>
-          <img src={`${apiUrl}${url}`} alt="" className="bg-img" />
+          <img src={url} alt="" className="bg-img" />
           <div className="padding-content">
             <div className="title-product">{title}</div>
             <div className="ward-product">

@@ -27,7 +27,7 @@ export default function Category() {
                   <div
                     className=" bg-img "
                     style={{
-                      backgroundImage: `url(${apiUrl}${item.image.url})`,
+                      backgroundImage: `url(${item.image.url})`,
                       width: "50px",
                       height: "50px",
                     }}

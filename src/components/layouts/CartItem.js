@@ -16,7 +16,7 @@ function CartItem({
     <>
       <div className="cart-item">
         <img
-          src={`http://localhost:1337` + url}
+          src={url}
           alt=""
           style={{ width: "50px", height: "50px" }}
         />

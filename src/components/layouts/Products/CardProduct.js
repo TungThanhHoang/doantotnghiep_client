@@ -39,7 +39,7 @@ function CardProduct({
     <Col className="card-product col-five ">
       <div className="card-product__wrap ">
         <Link to={{ pathname: `product/${id}` }}>
-          <img src={`${apiUrl}${url}`} alt="" className="bg-img" />
+          <img src={url} alt="" className="bg-img" />
           <div className="padding-content">
             <div className="title-product">{title}</div>
             <div className="ward-product">

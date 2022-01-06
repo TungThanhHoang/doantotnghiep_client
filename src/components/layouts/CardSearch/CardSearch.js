@@ -52,7 +52,7 @@ function CardSearch() {
         className="search-new__product"
       >
         <img
-          src={`${apiUrl}${url}`}
+          src={url}
           alt=""
           className="bg-img"
           width={50}
