@@ -1,5 +1,5 @@
 export const apiUrl = process.env.NODE_ENV !== "production"
-? "https://onlineshoppingmarket.herokuapp.com"
+? "http://localhost:1337"
 : "deploy"
 export const LOCAL_TOKEN_USER = "_user"
 export const LOCAL_TOKEN_NEW_PRODUCTS = "_newproduct"

@@ -4,16 +4,22 @@ import CardProduct from "./CardProduct";
 import { Row } from "antd";
 import "./ProductHome.css";
 import { ProductContext } from "../../../contexts/ProductContext";
+import { AuthContext } from "../../../contexts/AuthContext";
 function ProductHome() {
   const {
     productState: { products },
     loadProduct,
+    formatPrice,
   } = useContext(ProductContext);
-  const { formatPrice } = useContext(ProductContext);
+  const {
+    authState: {
+      user: { ward },
+    },
+  } = useContext(AuthContext);
   useEffect(() => {
     setTimeout(() => {
       const getToken = localStorage.getItem("ward");
-      const tokenProduct = slug(getToken);
+      const tokenProduct = slug(ward ? ward : "");
       loadProduct(tokenProduct);
     });
   }, []);

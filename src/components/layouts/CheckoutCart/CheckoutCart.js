@@ -189,12 +189,12 @@ function CheckoutCart() {
               </div>
               <div className="delivery-fee">
                 <span>Phí vận chuyển:</span>{" "}
-                <span>{formatPrice.format(10000)}</span>
+                <span>{formatPrice.format(15000)}</span>
               </div>
               <div className="total-price__order">
                 <span>Tổng tiền:</span>{" "}
                 <span style={{ color: "var(--color-price)" }}>
-                  {formatPrice.format(totalPrice + 10000)}
+                  {formatPrice.format(totalPrice + 15000)}
                 </span>
               </div>
             </div>

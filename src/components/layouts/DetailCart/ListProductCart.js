@@ -41,29 +41,29 @@ function ListProductCart({
       </Col>
       <Col xs={13} sm={16} md={19} lg={19} xl={19} className="total-product">
         {/* <Row> */}
-          <div className="name-product">{title}</div>
-          <div className="price-product">{formatPrice.format(Price)}</div>
-          <div className="quanlity-product">
-            <button
-              onClick={(e) => decreaseQuanlity(id, quanlity)}
-              className="btn-increase"
-            >
-              -
-            </button>
-            <input disabled type="text" value={quanlity} />
-            <button
-              onClick={(e) => increaseQuanlity(id, quanlity)}
-              className="btn-decrease"
-            >
-              +
-            </button>
-          </div>
-          <div className="total-price">
-            {formatPrice.format(handleTotalPriceProduct(quanlity, Price))}
-          </div>
-          <div className="btn-remove" onClick={(e) => deleteItemCart(id)}>
-            <Trash2 size={16} color="orange" />
-          </div>
+        <div className="name-product">{title}</div>
+        <div className="price-product">{formatPrice.format(Price)}</div>
+        <div className="quanlity-product">
+          <button
+            onClick={() => decreaseQuanlity(id, quanlity)}
+            className="btn-increase"
+          >
+            -
+          </button>
+          <input disabled type="text" value={quanlity} />
+          <button
+            onClick={() => increaseQuanlity(id, quanlity)}
+            className="btn-decrease"
+          >
+            +
+          </button>
+        </div>
+        <div className="total-price">
+          {formatPrice.format(handleTotalPriceProduct(quanlity, Price))}
+        </div>
+        <div className="btn-remove" onClick={(e) => deleteItemCart(id)}>
+          <Trash2 size={16} color="orange" />
+        </div>
         {/* </Row> */}
       </Col>
     </Row>

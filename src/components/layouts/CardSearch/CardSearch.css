@@ -75,7 +75,7 @@
     text-overflow: ellipsis;
     color: var(--color-font-two);
     font-size: 15px;
-    /* min-width: 135px; */
+    max-width: 155px;
 }
 
 .container__wrap .product-item .price-product {
@@ -83,11 +83,6 @@
     color: var(--color-price);
     font-weight: 500;
 }
-
-
-/* .navbar-search input:focus+.content-search__wrap {
-    display: block;
-} */
 
 .nav-search-icon {
     color: #1f2020;

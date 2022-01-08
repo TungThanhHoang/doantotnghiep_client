@@ -20,7 +20,7 @@ function NewProducts() {
   useEffect(() => {
     setTimeout(() => {
       const getToken = localStorage.getItem("ward");
-      const tokenProduct = slug(ward);
+      const tokenProduct = slug(ward ? ward : "");
       loadNewProduct(tokenProduct);
     });
   }, []);

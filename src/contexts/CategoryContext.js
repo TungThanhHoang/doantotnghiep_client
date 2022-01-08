@@ -51,12 +51,12 @@ const CategoryContextProvider = ({ children }) => {
       console.log(error);
     }
   };
-  const loadProductFilter = async (id) => {
+  const loadProductFilter = async (id,ward) => {
     setIsLoadingItem(true);
     try {
       await axios
         .get(
-          `${apiUrl}/products?category._id=${id}&Price_gte=${minPrice}&Price_lte=${maxPrice}`
+          `${apiUrl}/products?category._id=${id}&wards.slug=${ward}&Price_gte=${minPrice}&Price_lte=${maxPrice}`
         )
         .then((res) => {
           setIsLoadingItem(false);

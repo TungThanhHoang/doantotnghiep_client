@@ -6,7 +6,8 @@ import ListProductCart from "./ListProductCart";
 import { ProductContext } from "../../../contexts/ProductContext";
 import { CartContext } from "../../../contexts/CartContext";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-
+import Lottie from "react-lottie";
+import loading from "../../../assets/cart-empty.json";
 const { confirm } = Modal;
 function DetailCart() {
   const { cartItem, deleteItemCart, increaseQuanlity, decreaseQuanlity } =
@@ -16,6 +17,16 @@ function DetailCart() {
   const [checkedState, setCheckedState] = useState([...cartItem].fill(false));
   const [totalPrice, setTotalPrice] = useState(0);
   const history = useHistory();
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: loading,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   const handleCheck = (idItem) => {
     const updatedCheckedState = checkedState.map((item, index) =>
       index === idItem ? !item : item
@@ -63,14 +74,14 @@ function DetailCart() {
   const handleIncrease = (id, quanlity) => {
     const increase = increaseQuanlity(id, quanlity);
     if (increase) {
-      message.success("Tăng phẩm thành công !", 1);
+      message.success("Tăng số lượng thành công !", 1);
     }
     return increase;
   };
   const handleDecrease = (id, quanlity) => {
     const increase = decreaseQuanlity(id, quanlity);
     if (increase) {
-      message.success("Giảm sản phẩm thành công !", 1);
+      message.success("Giảm số lượng thành công !", 1);
     }
     return increase;
   };
@@ -91,39 +102,55 @@ function DetailCart() {
       <Row>
         <Col xs={24} sm={24} md={24} lg={18} xl={18}>
           <div className="main-left">
-            <Col>
-              <div className="notify-cart">
-                Chọn sản phẩm để tiến hành thanh toán
-              </div>
-            </Col>
-            <Col>
-              <div className="content-cart">
-                <div className="title-detail">
-                  <div>Sản Phẩm</div>
-                  <div>Đơn Giá</div>
-                  <div>Số Lượng</div>
-                  <div>Số Tiền</div>
-                  <div>Thao Tác</div>
+            {cartItem.length !== 0 && (
+              <Col>
+                <div className="notify-cart">
+                  Chọn sản phẩm để tiến hành thanh toán
                 </div>
-                <div className="list-product">
-                  {cartItem.map((item, index) => {
-                    return (
-                      <ListProductCart
-                        key={item.id}
-                        cartItem={item}
-                        index={index}
-                        formatPrice={formatPrice}
-                        deleteItemCart={handleDeleteItem}
-                        increaseQuanlity={handleIncrease}
-                        decreaseQuanlity={handleDecrease}
-                        checkedState={checkedState}
-                        handleCheck={handleCheck}
-                      />
-                    );
-                  })}
-                </div>
+              </Col>
+            )}
+            {cartItem.length === 0 ? (
+              <div
+                style={{
+                  backgroundColor: "#fff",
+                  width: "100%",
+                  height: "100vh",
+                  zIndex: 999,
+                  alignSelf: "center",
+                }}
+              >
+                <Lottie options={defaultOptions} height={250} width={250} />
               </div>
-            </Col>
+            ) : (
+              <Col>
+                <div className="content-cart">
+                  <div className="title-detail">
+                    <div>Sản Phẩm</div>
+                    <div>Đơn Giá</div>
+                    <div>Số Lượng</div>
+                    <div>Số Tiền</div>
+                    <div>Thao Tác</div>
+                  </div>
+                  <div className="list-product">
+                    {cartItem.map((item, index) => {
+                      return (
+                        <ListProductCart
+                          key={item.id}
+                          cartItem={item}
+                          index={index}
+                          formatPrice={formatPrice}
+                          deleteItemCart={handleDeleteItem}
+                          increaseQuanlity={handleIncrease}
+                          decreaseQuanlity={handleDecrease}
+                          checkedState={checkedState}
+                          handleCheck={handleCheck}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+              </Col>
+            )}
           </div>
         </Col>
         <Col xs={24} sm={24} md={24} lg={6} xl={6}>

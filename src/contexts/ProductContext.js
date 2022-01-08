@@ -28,7 +28,7 @@ const ProductContextProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-  };
+};
 
   const loadNewProduct = async (type) => {
     try {

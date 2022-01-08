@@ -29,7 +29,7 @@ function CategoryProductItem({
     const addCart = addProductToCart(productId);
     if (addCart) {
       message.success("Thêm sản phẩm thành công", 1);
-    }
+  }
     return addCart;
   };
   return (

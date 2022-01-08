@@ -186,6 +186,10 @@
     cursor: pointer;
 }
 
+.card-info__order button:hover {
+    opacity: .8;
+}
+
 .wrap-checkout .main-left .card-product .info-product .title-product {
     color: var(--color-font-two);
     font-weight: 500;

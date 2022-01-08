@@ -9,9 +9,17 @@ import { ProductContext } from "../contexts/ProductContext";
 import LoadingPage from "../components/layouts/LoadingPage";
 import Lottie from "react-lottie";
 import empty from "../assets/empty1.json";
+import { AuthContext } from "../contexts/AuthContext";
+import slug from "slug";
 const { Option } = Select;
 function Category() {
   const { id } = useParams();
+
+  const {
+    authState: {
+      user: { ward },
+    },
+  } = useContext(AuthContext);
   const {
     categoryState: { productFilter },
     setMaxPrice,
@@ -33,13 +41,16 @@ function Category() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+
   useEffect(() => {
+    const getWard = slug(ward);
     loadOneCategory(id);
-    loadProductFilter(id);
+    loadProductFilter(id, getWard);
   }, []);
 
   const handleFilter = useCallback(() => {
-    loadProductFilter(id);
+    const getWard = slug(ward);
+    loadProductFilter(id, getWard);
   }, [CountPrice]);
 
   const handleOnChange = (input) => {
@@ -85,19 +96,19 @@ function Category() {
               <h3 className="title-filter">Lọc theo thương hiệu</h3>
               <div className="checkbox-filter">
                 <input type="checkbox" />
-                <div>Checkbox1</div>
+                <div>Màu đỏ</div>
               </div>
               <div className="checkbox-filter">
                 <input type="checkbox" />
-                <div>Checkbox2</div>
+                <div>Màu vàng</div>
               </div>
               <div className="checkbox-filter">
                 <input type="checkbox" />
-                <div>Checkbox3</div>
+                <div>Màu xanh</div>
               </div>
               <div className="checkbox-filter">
                 <input type="checkbox" />
-                <div>Checkbox4</div>
+                <div>Màu cam</div>
               </div>
             </div>
             <button
@@ -129,19 +140,19 @@ function Category() {
                 <h3 className="title-filter">Lọc theo thương hiệu</h3>
                 <div className="checkbox-filter">
                   <input type="checkbox" />
-                  <div>Checkbox1</div>
+                  <div>Màu đỏ</div>
                 </div>
                 <div className="checkbox-filter">
                   <input type="checkbox" />
-                  <div>Checkbox2</div>
+                  <div>Màu vàng</div>
                 </div>
                 <div className="checkbox-filter">
                   <input type="checkbox" />
-                  <div>Checkbox3</div>
+                  <div>Màu xanh</div>
                 </div>
                 <div className="checkbox-filter">
                   <input type="checkbox" />
-                  <div>Checkbox4</div>
+                  <div>Màu cam</div>
                 </div>
               </div>
               <button onClick={() => handleFilter()} className=" btn-filter">
