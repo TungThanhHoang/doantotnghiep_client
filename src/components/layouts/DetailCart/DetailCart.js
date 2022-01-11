@@ -79,11 +79,12 @@ function DetailCart() {
     return increase;
   };
   const handleDecrease = (id, quanlity) => {
-    const increase = decreaseQuanlity(id, quanlity);
-    if (increase) {
+    const decrease = decreaseQuanlity(id, quanlity);
+    if (decrease) {
+      console.log(decrease);
       message.success("Giảm số lượng thành công !", 1);
     }
-    return increase;
+    return decrease;
   };
   const handleCheckProduct = () => {
     if (newarray.length === 0) {

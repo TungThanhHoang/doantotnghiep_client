@@ -62,7 +62,7 @@ function CheckoutCart() {
     height: 256,
   };
   const [imgQR, setImgQR] = useState("hello word");
-  const [convertProduct, setConvertProduct] = useState([]);
+  const [convertProduct, setConvertProduct] = useState("");
   const [sendCode] = useState({
     id_code: JSON.stringify(code),
     phone: `${phone}`,
@@ -73,13 +73,12 @@ function CheckoutCart() {
   useEffect(() => {
     const arrayProduct = [];
     stateItem?.forEach((item) => {
-      arrayProduct.push([
-        ...convertProduct,
-        item.products.title,
-        item.products.Price,
-        item.products.picture[0].url,
-        item.quanlity,
-      ]);
+      arrayProduct.push(...convertProduct, {
+        title: item.products.title,
+        price:item.products.Price,
+        picture: item.products.picture[0].url,
+        quanlity: item.quanlity,
+      });
     });
     setConvertProduct(arrayProduct);
   }, []);
@@ -87,7 +86,8 @@ function CheckoutCart() {
   QRCode.toString(
     JSON.stringify({
       ...sendCode,
-      product: `${convertProduct}`,
+      product: convertProduct,
+      payment:checked
     }),
     opts
   )
