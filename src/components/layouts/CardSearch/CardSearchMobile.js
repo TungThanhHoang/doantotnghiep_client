@@ -9,11 +9,11 @@ import empty from "../../../assets/empty1.json";
 function CardSearchMobile({ setSearchState }) {
   const {
     productState: { newProducts },
+    formatPrice
   } = useContext(ProductContext);
   // const [searchString, setSearchItem] = useState("");
   const { searchProduct, searchItem, stringSearch, setStringSearch } =
     useContext(SearchContext);
-  const { formatPrice } = useState(ProductContext)  
   useEffect(() => {
     if (stringSearch !== null) {
       searchProduct();
