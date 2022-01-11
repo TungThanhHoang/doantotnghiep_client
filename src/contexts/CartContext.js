@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 import axios from "axios";
-import { apiUrl, LOCAL_TOKEN_CART_ITEM, LOCAL_TOKEN_USER } from "./constants";
+import { API_URL, LOCAL_TOKEN_CART_ITEM, LOCAL_TOKEN_USER } from "./constants";
 export const CartContext = createContext();
 
 const CartContextProvider = ({ children }) => {
@@ -11,7 +11,7 @@ const CartContextProvider = ({ children }) => {
   const loadItemCart = async  () => {
     const token = await localStorage.getItem(LOCAL_TOKEN_USER);
     try {
-      const response = await axios.get(`${apiUrl}/items?_sort=createdAt:DESC`, {
+      const response = await axios.get(`${API_URL}/items?_sort=createdAt:DESC`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -37,7 +37,7 @@ const CartContextProvider = ({ children }) => {
   const deleteItemCart = async (itemId) => {
     try {
       await axios
-        .delete(`${apiUrl}/items/${itemId}`, {
+        .delete(`${API_URL}/items/${itemId}`, {
           headers: {
             Authorization: `Bearer ${getToken}`,
           },
@@ -60,7 +60,7 @@ const CartContextProvider = ({ children }) => {
       setIsLoading(true);
       if (item) {
         const response = await axios.put(
-          `${apiUrl}/items/${item.id}`,
+          `${API_URL}/items/${item.id}`,
           {
             quanlity: parseInt(item.quanlity) + parseInt(quanlityId),
           },
@@ -77,7 +77,7 @@ const CartContextProvider = ({ children }) => {
         }
       } else {
         const response = await axios.post(
-          `${apiUrl}/items`,
+          `${API_URL}/items`,
           {
             products: productId,
             quanlity: 1,
@@ -106,7 +106,7 @@ const CartContextProvider = ({ children }) => {
         setIsLoading(true);
         await axios
           .put(
-            `${apiUrl}/items/${itemId}`,
+            `${API_URL}/items/${itemId}`,
             {
               quanlity: parseInt(quanlity) + 1,
             },
@@ -136,7 +136,7 @@ const CartContextProvider = ({ children }) => {
         console.log("test", cartItem);
         await axios
           .put(
-            `${apiUrl}/items/${itemId}`,
+            `${API_URL}/items/${itemId}`,
             {
               quanlity: parseInt(quanlity) - 1,
             },

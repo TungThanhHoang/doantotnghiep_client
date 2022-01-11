@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 import axios from "axios";
-import { apiUrl, LOCAL_TOKEN_USER } from "./constants";
+import { API_URL, LOCAL_TOKEN_USER } from "./constants";
 export const CheckOutContext = createContext();
 const CheckOutContextProvider = ({ children }) => {
   const [payment, setPayment] = useState([]);
@@ -12,7 +12,7 @@ const CheckOutContextProvider = ({ children }) => {
   const [isLoadingBill, setLoadingBill] = useState(false);
   const orderProducts = async (formProduct) => {
     try {
-      const response = await axios.post(`${apiUrl}/bills`, formProduct, {
+      const response = await axios.post(`${API_URL}/bills`, formProduct, {
         headers: {
           Authorization: `Bearer ${getToken}`,
         },
@@ -28,7 +28,7 @@ const CheckOutContextProvider = ({ children }) => {
   const loadBill = async () => {
     try {
       await axios
-        .get(`${apiUrl}/bills?_sort=createdAt:DESC`, {
+        .get(`${API_URL}/bills?_sort=createdAt:DESC`, {
           headers: {
             Authorization: `Bearer ${getToken}`,
           },
@@ -43,7 +43,7 @@ const CheckOutContextProvider = ({ children }) => {
     setLoadingBill(true);
     try {
       await axios
-        .get(`${apiUrl}/bills/${idBill}`, {
+        .get(`${API_URL}/bills/${idBill}`, {
           headers: {
             Authorization: `Bearer ${getToken}`,
           },
@@ -61,7 +61,7 @@ const CheckOutContextProvider = ({ children }) => {
   const handleLoadBillDeivery = async () => {
     try {
       await axios
-        .get(`${apiUrl}/bills?status=${stateBill}&_sort=createdAt:DESC`, {
+        .get(`${API_URL}/bills?status=${stateBill}&_sort=createdAt:DESC`, {
           headers: {
             Authorization: `Bearer ${getToken}`,
           },
@@ -74,7 +74,7 @@ const CheckOutContextProvider = ({ children }) => {
   const updateBillStateCancel = async (idBillOrder) => {
     try {
       const response = await axios.put(
-        `${apiUrl}/bills/${idBillOrder}`,
+        `${API_URL}/bills/${idBillOrder}`,
         { status: "canceled" },
         {
           headers: {

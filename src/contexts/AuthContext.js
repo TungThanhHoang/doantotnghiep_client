@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { createContext, useEffect, useReducer, useState } from "react";
 import { AuthReducer } from "../reducers/AuthReducer";
-import { apiUrl, LOCAL_TOKEN_USER } from "./constants";
+import { API_URL, LOCAL_TOKEN_USER } from "./constants";
 export const AuthContext = createContext();
 const AuthContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
@@ -27,7 +27,7 @@ const AuthContextProvider = ({ children }) => {
     }
     try {
       await axios
-        .get(`${apiUrl}/users/me`, {
+        .get(`${API_URL}/users/me`, {
           headers: {
             Authorization: `Bearer ${tokenUser}`,
           },
@@ -51,7 +51,7 @@ const AuthContextProvider = ({ children }) => {
   const loginUser = async (formLogin) => {
     setLoading(true);
     try {
-      const response = await axios.post(`${apiUrl}/auth/local`, formLogin);
+      const response = await axios.post(`${API_URL}/auth/local`, formLogin);
       if (response.data.user) {
         setLoading(false);
         localStorage.setItem(LOCAL_TOKEN_USER, response.data.jwt);
@@ -66,7 +66,7 @@ const AuthContextProvider = ({ children }) => {
   const registerUser = async (formRegister) => {
     try {
       const response = await axios.post(
-        `${apiUrl}/auth/local/register`,
+        `${API_URL}/auth/local/register`,
         formRegister
       );
       if (response.data.user) {
@@ -82,7 +82,7 @@ const AuthContextProvider = ({ children }) => {
     const tokenUser = await localStorage[LOCAL_TOKEN_USER];
     try {
       const response = await axios.put(
-        `${apiUrl}/users/${userId}`,
+        `${API_URL}/users/${userId}`,
         formUpdate,
         {
           headers: {

@@ -1,4 +1,4 @@
-export const apiUrl = process.env.NODE_ENV !== "production"
+export const API_URL = process.env.NODE_ENV !== "production"
 ? "https://onlineshoppingmarket.herokuapp.com"
 : ""
 export const LOCAL_TOKEN_USER = "_user"
