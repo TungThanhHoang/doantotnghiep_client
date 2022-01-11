@@ -1,6 +1,4 @@
 import React from "react";
-import { apiUrl } from "../../../contexts/constants";
-
 function CheckOutItem({data:{ quanlity , products:{ title , Price ,picture:{ 0:{url}} }} , formatPrice}) {
     // console.log(data);
   return (

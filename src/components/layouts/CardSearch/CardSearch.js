@@ -4,7 +4,6 @@ import { Row, Col } from "antd";
 import { Search } from "react-feather";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../../../contexts/ProductContext";
-import { apiUrl } from "../../../contexts/constants";
 import { SearchContext } from "../../../contexts/SearchContext";
 import Lottie from "react-lottie";
 import empty from "../../../assets/empty1.json";

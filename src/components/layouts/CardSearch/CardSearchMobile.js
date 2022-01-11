@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Search } from "react-feather";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Row, Col } from "antd";
 import { ProductContext } from "../../../contexts/ProductContext";
 import { SearchContext } from "../../../contexts/SearchContext";
@@ -11,7 +11,6 @@ function CardSearchMobile({ setSearchState }) {
     productState: { newProducts },
     formatPrice
   } = useContext(ProductContext);
-  // const [searchString, setSearchItem] = useState("");
   const { searchProduct, searchItem, stringSearch, setStringSearch } =
     useContext(SearchContext);
   useEffect(() => {
