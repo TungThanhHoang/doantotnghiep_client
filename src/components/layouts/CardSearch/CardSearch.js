@@ -14,7 +14,6 @@ function CardSearch() {
   const {
     productState: { newProducts },
   } = useContext(ProductContext);
-  // const [searchString, setSearchItem] = useState("");
   const { searchProduct, searchItem, stringSearch, setStringSearch } =
     useContext(SearchContext);
   const { formatPrice } = useContext(ProductContext)  
@@ -34,7 +33,7 @@ function CardSearch() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-
+// dfdfdf
   const SearchProductItem = ({
     item: {
       id,
