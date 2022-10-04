@@ -1,28 +1,29 @@
 import React, { useContext } from "react";
 import { Col, message } from "antd";
 import { ShoppingCart, MapPin } from "react-feather";
-import { apiUrl } from "../../../contexts/constants";
 import { CartContext } from "../../../contexts/CartContext";
 import { ProductContext } from "../../../contexts/ProductContext";
 import { Link } from "react-router-dom";
 function CardProduct({
   product: {
     id,
-    title,
-    Price,
-    size,
-    picture: {
-      0: { url },
-    },
-    wards,
+    attributes: {
+      title,
+      price,
+      slug,
+      size,
+      picture: {
+        data: {
+          0: {
+            attributes: {
+             url
+            }
+          }
+        }
+      },
+    }
   },
 }) {
-  const newWard = [];
-  const getWard = localStorage.getItem("ward");
-  wards.map((item) => {
-    if (item.name === getWard) newWard.push(item.name);
-    return newWard;
-  });
 
   const { formatPrice } = useContext(ProductContext);
   const { addProductToCart } = useContext(CartContext);
@@ -34,7 +35,7 @@ function CardProduct({
     }
     return addCart;
   };
-  
+
   return (
     <Col className="card-product col-five ">
       <div className="card-product__wrap ">
@@ -44,22 +45,22 @@ function CardProduct({
             <div className="title-product">{title}</div>
             <div className="ward-product">
               <MapPin size={14} style={{ color: "orange" }} />
-              <span>{newWard}</span>
+              <span></span>
             </div>
             <div className="quality-product">
-              <div className="price-product">{formatPrice.format(Price)}</div>
+              <div className="price-product">{formatPrice.format(price)}</div>
               <div className="size-product">
                 {size === "onebox"
                   ? "Hộp"
                   : size === "onebotlle"
-                  ? "Chai"
-                  : size === "fivegram"
-                  ? "500g"
-                  : size === "onegram"
-                  ? "100g"
-                  : size === "onekilogram"
-                  ? "1kg"
-                  : "1 túi"}
+                    ? "Chai"
+                    : size === "fivegram"
+                      ? "500g"
+                      : size === "onegram"
+                        ? "100g"
+                        : size === "onekilogram"
+                          ? "1kg"
+                          : "1 túi"}
               </div>
             </div>
           </div>

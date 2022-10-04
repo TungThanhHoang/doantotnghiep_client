@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Row, Col, message } from "antd";
 import "./DetailUser.css";
-import country from "../../../db/ward.json";
+import country from "../../../db/city.json";
 import SelectCountry from "../SelectCountry";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { LockOutlined } from "@ant-design/icons";

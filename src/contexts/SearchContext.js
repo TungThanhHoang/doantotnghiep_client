@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 import axios from "axios";
-import { apiUrl } from "./constants";
+import { API_URL } from "./constants";
 import slug from "slug";
 export const SearchContext = createContext();
 const SearchContextProvider = ({ children }) => {
@@ -11,7 +11,7 @@ const SearchContextProvider = ({ children }) => {
     const convertWard = slug(getWard ? getWard : "");
     try {
       await axios
-        .get(`${apiUrl}/products?wards.slug=${convertWard}&_q=${stringSearch}`)
+        .get(`${API_URL}/products?wards.slug=${convertWard}&_q=${stringSearch}`)
         .then((res) => setSearchItem(res.data))
         .catch((err) => console.log(err));
     } catch (error) {

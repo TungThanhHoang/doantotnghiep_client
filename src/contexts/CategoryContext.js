@@ -6,7 +6,7 @@ import {
   LOAD_CATEGORIES,
   LOAD_CATEGORY,
 } from "../reducers/Type";
-import { apiUrl } from "./constants";
+import { API_URL } from "./constants";
 export const CategoryContext = createContext();
 
 const CategoryContextProvider = ({ children }) => {
@@ -24,7 +24,7 @@ const CategoryContextProvider = ({ children }) => {
   const loadCategory = async () => {
     try {
       await axios
-        .get(`${apiUrl}/categories`)
+        .get(`${API_URL}/categories`)
         .then((res) =>
           dispatch({
             type: LOAD_CATEGORIES,
@@ -41,7 +41,7 @@ const CategoryContextProvider = ({ children }) => {
     try {
       setIsLoading(true);
       await axios
-        .get(`${apiUrl}/categories/${catId}`)
+        .get(`${API_URL}/categories/${catId}`)
         .then((res) => {
           setIsLoading(false);
           dispatch({ type: LOAD_CATEGORY, payload: res.data });
@@ -56,7 +56,7 @@ const CategoryContextProvider = ({ children }) => {
     try {
       await axios
         .get(
-          `${apiUrl}/products?category._id=${id}&wards.slug=${ward}&Price_gte=${minPrice}&Price_lte=${maxPrice}`
+          `${API_URL}/products?category._id=${id}&wards.slug=${ward}&Price_gte=${minPrice}&Price_lte=${maxPrice}`
         )
         .then((res) => {
           setIsLoadingItem(false);

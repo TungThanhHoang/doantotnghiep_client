@@ -1,6 +1,6 @@
 export const API_URL = process.env.NODE_ENV !== "production"
-? "https://onlineshoppingmarket.herokuapp.com"
-: ""
+? "http://localhost:1337/api"
+: "https://onlineshoppingmarket.herokuapp.com"
 export const LOCAL_TOKEN_USER = "_user"
 export const LOCAL_TOKEN_NEW_PRODUCTS = "_newproduct"
 export const LOCAL_TOKEN_CART_ITEM = "_cartItem "

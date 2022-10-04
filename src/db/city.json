@@ -1,81 +1,81 @@
 {
     "ward": [{
-            "countryId": "Quận Hải Châu",
+            "wardId": "Quận Hải Châu",
             "slug": "Phường Hải Châu I",
             "name": "Phường Hải Châu I"
         },
         {
-            "countryId": "Quận Hải Châu",
+            "wardId": "Quận Hải Châu",
             "slug": "Phường Hải Châu II ",
             "name": "Phường Hải Châu II"
         },
         {
-            "countryId": "Quận Liên Chiểu",
+            "wardId": "Quận Liên Chiểu",
             "slug": "Phường Hòa Hiệp Bắc ",
             "name": "Phường Hòa Hiệp Bắc"
         },
         {
-            "countryId": "Quận Liên Chiểu",
+            "wardId": "Quận Liên Chiểu",
             "slug": "Phường Hòa Hiệp Nam ",
             "name": "Phường Hòa Hiệp Nam"
         },
         {
-            "countryId": "Quận Cẩm Lệ",
+            "wardId": "Quận Cẩm Lệ",
             "slug": "Phường Khuê Trung",
             "name": "Phường Khuê Trung"
         },
         {
-            "countryId": "Quận Hải Châu",
+            "wardId": "Quận Hải Châu",
             "slug": "Phường Hòa Cường Bắc",
             "name": "Phường Hòa Cường Bắc"
         },
         {
-            "countryId": "Quận Hải Châu",
+            "wardId": "Quận Hải Châu",
             "slug": "Phường Hòa Cường Nam",
             "name": "Phường Hòa Cường Nam"
         },
         {
-            "countryId": "Quận Ngũ Hành Sơn",
+            "wardId": "Quận Ngũ Hành Sơn",
             "slug": "Phường Hòa Hải",
             "name": "Phường Hòa Hải"
         },
         {
-            "countryId": "Quận Cẩm Lệ",
+            "wardId": "Quận Cẩm Lệ",
             "slug": "Phường Hòa An",
             "name": "Phường Hòa An"
         },
         {
-            "countryId": "Quận Cẩm Lệ",
+            "wardId": "Quận Cẩm Lệ",
             "slug": "Phường Hòa Xuân",
             "name": "Phường Hòa Xuân"
         },
         {
-            "countryId": "Quận Thanh Khê",
+            "wardId": "Quận Thanh Khê",
             "slug": "Phường Tân Chính",
             "name": "Phường Tân Chính"
         },
         {
-            "countryId": "Quận Thanh Khê",
+            "wardId": "Quận Thanh Khê",
             "slug": "Phường Vĩnh Trung",
             "name": "Phường Vĩnh Trung"
         },
         {
-            "countryId": "Quận Sơn Trà",
+            "wardId": "Quận Sơn Trà",
             "slug": "Phường Hòa Qúy",
             "name": "Phường Hòa Qúy"
         },
         {
-            "countryId": "Quận Thanh Khê",
+            "wardId": "Quận Thanh Khê",
             "slug": "Phường Nại Hiên Đông",
             "name": "Phường Nại Hiên Đông"
         },
         {
-            "countryId": "Quận Ngũ Hành Sơn",
+            "wardId": "Quận Ngũ Hành Sơn",
             "slug": "Phường Khuê Mỹ",
             "name": "Phường Khuê Mỹ"
         }
     ],
-    "countries": [{
+    "distinct": [{
             "slug": "Quận Hải Châu",
             "name": "Quận Hải Châu"
         },

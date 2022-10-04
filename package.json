@@ -9,16 +9,19 @@
     "@testing-library/user-event": "^12.8.3",
     "antd": "^4.16.13",
     "axios": "^0.21.4",
+    "boxicons": "^2.1.4",
     "feather-icons-react": "^0.4.3",
+    "lodash": "^4.17.21",
     "qrcode": "^1.5.0",
-    "react": "^17.0.2",
+    "react": "^18.2.0",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
     "react-lottie": "^1.2.3",
     "react-router-dom": "^5.3.0",
     "react-router-scroll-top": "^0.2.1",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^5.0.1",
     "react-slick": "^0.28.1",
+    "react-toastify": "^9.0.8",
     "slick-carousel": "^1.8.1",
     "slug": "^5.1.0",
     "swiper": "^6.8.4",
@@ -48,5 +51,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.12",
+    "postcss": "^8.4.17",
+    "tailwindcss": "^3.1.8"
   }
 }

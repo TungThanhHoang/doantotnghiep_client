@@ -16,16 +16,11 @@ function NewProducts() {
     formatPrice,
     loadNewProduct,
   } = useContext(ProductContext);
- const  { authState: { user:{ ward }} } = useContext(AuthContext)
   useEffect(() => {
-    setTimeout(() => {
-      const getToken = localStorage.getItem("ward");
-      const tokenProduct = slug(ward ? ward : "");
-      loadNewProduct(tokenProduct);
-    });
+    loadNewProduct();
   }, []);
 
-
+console.log(newProducts);
 
   var settings = {
     dots: true,

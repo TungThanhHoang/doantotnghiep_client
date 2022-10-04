@@ -6,7 +6,7 @@ import {
   LOAD_ONE_PRODUCT,
   LOAD_PRODUCTS,
 } from "../reducers/Type";
-import { apiUrl } from "./constants";
+import { API_URL } from "./constants";
 export const ProductContext = createContext();
 
 const ProductContextProvider = ({ children }) => {
@@ -17,27 +17,27 @@ const ProductContextProvider = ({ children }) => {
     product: [],
   });
   const [isloading, setLoading] = useState(false);
-  const loadProduct = async (type) => {
+  const loadProduct = async () => {
     try {
       const response = await axios.get(
-        `${apiUrl}/products?wards.slug=${type}&_start=8&_sort=createdAt:DESC`
+        `${API_URL}/products?populate=*`
       );
       if (response.data) {
-        dispatch({ type: LOAD_PRODUCTS, payload: response.data });
+        dispatch({ type: LOAD_PRODUCTS, payload: response.data.data });
       }
     } catch (error) {
       console.log(error);
     }
 };
 
-  const loadNewProduct = async (type) => {
+  const loadNewProduct = async () => {
     try {
       await axios
         .get(
-          `${apiUrl}/products?wards.slug=${type}&_limit=8&_sort=createdAt:DESC`
+          `${API_URL}/products?populate=*`
         )
         .then((res) => {
-          dispatch({ type: LOAD_NEW_PRODUCTS, payload: res.data });
+          dispatch({ type: LOAD_NEW_PRODUCTS, payload: res.data.data });
         })
         .catch((err) => console.log(err));
     } catch (error) {
@@ -48,7 +48,7 @@ const ProductContextProvider = ({ children }) => {
     setLoading(true);
     try {
       await axios
-        .get(`${apiUrl}/products/${productId}`)
+        .get(`${API_URL}/products/${productId}`)
         .then((res) => {
           setLoading(false);
           dispatch({ type: LOAD_ONE_PRODUCT, payload: [res.data] });

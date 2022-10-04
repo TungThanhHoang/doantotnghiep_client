@@ -1,40 +1,25 @@
 import React from "react";
 
-import { Select } from "antd";
-const { Option } = Select;
-
 export default function SelectCountry({
   options,
   value,
   title,
-  handleSelectChange,
+  onChangeSelectValue,
+  onChangeValue,
 }) {
   return (
-    <Select
-      size="large"
-      className="select-country"
-      bordered
-      name="title"
-      value={value}
-      onChange={handleSelectChange}
-      optionFilterProp="children"
-      filterOption={(input, option) =>
-        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-      }
-      filterSort={(optionA, optionB) =>
-        optionA.children
-          .toLowerCase()
-          .localeCompare(optionB.children.toLowerCase())
-      }
+    <select
+      className="mt-1 block p-2 w-full text-sm text-gray-900 bg-white shadow-sm rounded-md border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-green-500 focus:ring-green-500"
+      name="search"
+      value={value ? value : ""}
+      onChange={(e) => { onChangeSelectValue(e); onChangeValue(e) }}
     >
-      <Option value="" disabled defaultValue hidden>
-        {title}
-      </Option>
+      <option value="" >{title}</option>
       {options?.map((item, index) => (
-        <Option key={index} value={item.slug}>
+        <option key={index} value={item.slug}>
           {item.name}
-        </Option>
+        </option>
       ))}
-    </Select>
+    </select>
   );
 }

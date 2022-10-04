@@ -8,6 +8,7 @@ const AuthContextProvider = ({ children }) => {
   const [authState, dispatch] = useReducer(AuthReducer, {
     isLoading: true,
     isAuth: false,
+    isConfirm: false,
     user: null,
     ward: null,
     bill: null,
@@ -21,10 +22,10 @@ const AuthContextProvider = ({ children }) => {
   // };
   const loadUser = async () => {
     const tokenUser = localStorage[LOCAL_TOKEN_USER];
-    if (tokenUser) {
+    // if (tokenUser) {
       // setToken(localStorage[LOCAL_TOKEN_USER]);
       // console.log("token", tokenUser);
-    }
+    // }
     try {
       await axios
         .get(`${API_URL}/users/me`, {
@@ -35,16 +36,15 @@ const AuthContextProvider = ({ children }) => {
         .then((res) => {
           dispatch({
             type: "SET_AUTH",
-            payload: { isAuth: true, user: res.data, ward: res.data.ward },
+            payload: { isAuth: true, isConfirm: true, user: res.data},
           });
-          localStorage.setItem("ward", res.data.ward);
         });
     } catch (error) {
       localStorage.removeItem(LOCAL_TOKEN_USER);
       // setToken(null);
       dispatch({
         type: "SET_AUTH",
-        payload: { isAuth: false, user: null, ward: null },
+        payload: { isAuth: false, isConfirm: false, user: null},
       });
     }
   };
@@ -53,13 +53,13 @@ const AuthContextProvider = ({ children }) => {
     try {
       const response = await axios.post(`${API_URL}/auth/local`, formLogin);
       if (response.data.user) {
-        setLoading(false);
         localStorage.setItem(LOCAL_TOKEN_USER, response.data.jwt);
-        localStorage.setItem("bill", JSON.stringify(response.data.user.bills));
+        setLoading(false);
       }
       await loadUser();
       return response.data;
     } catch (error) {
+      setLoading(false);
       return error.response.data;
     }
   };
@@ -103,7 +103,7 @@ const AuthContextProvider = ({ children }) => {
     localStorage.clear();
     dispatch({
       type: "SET_AUTH",
-      payload: { isAuth: false, user: null, ward: null },
+      payload: { isAuth: false, isConfirm: false ,user: null, ward: null },
     });
   };
 

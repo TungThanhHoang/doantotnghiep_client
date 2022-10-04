@@ -11,7 +11,7 @@ const CartContextProvider = ({ children }) => {
   const loadItemCart = async  () => {
     const token = await localStorage.getItem(LOCAL_TOKEN_USER);
     try {
-      const response = await axios.get(`${API_URL}/items?_sort=createdAt:DESC`, {
+      const response = await axios.get(`${API_URL}/items`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
