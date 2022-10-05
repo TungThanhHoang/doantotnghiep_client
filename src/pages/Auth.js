@@ -17,7 +17,7 @@ export default function Auth({ authRouter }) {
   else
     renderComponent = (
       <>
-        {authRouter === "loginRouter" && <Login changeStateModal={setModalConfirm} />}
+        {authRouter === "loginRouter" && <Login />}
         {authRouter === "registerRouter" && <Register changeStateModal={setModalConfirm} />}
       </>
     );
@@ -36,7 +36,7 @@ export default function Auth({ authRouter }) {
                 </div>
                 <div className="flex justify-center flex-col mx-auto items-center">
                   <iframe title="confirm Mail" src="https://embed.lottiefiles.com/animation/71647" className="w-56 h-56 "></iframe>
-                  <p className="font-medium text-sm text-gray-900">Chúng tôi đã gửi đến hộp thư của bạn. Vui lòng mở hộp thư của bạn và xác minh nó!</p>
+                  <p className="font-medium text-sm text-gray-900">Chúng tôi đã gửi đến hộp thư của bạn. Vui lòng mở hộp thư và xác minh nó!</p>
                 </div>
               </div>
             </div>

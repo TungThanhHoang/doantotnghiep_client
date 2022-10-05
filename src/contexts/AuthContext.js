@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { createContext, useEffect, useReducer, useState } from "react";
 import { AuthReducer } from "../reducers/AuthReducer";
-import { API_URL, LOCAL_TOKEN_USER } from "./constants";
+import { API_URL, LATITUDE, LOCAL_TOKEN_USER, LONGITUDE } from "./constants";
 export const AuthContext = createContext();
 const AuthContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
@@ -23,8 +23,8 @@ const AuthContextProvider = ({ children }) => {
   const loadUser = async () => {
     const tokenUser = localStorage[LOCAL_TOKEN_USER];
     // if (tokenUser) {
-      // setToken(localStorage[LOCAL_TOKEN_USER]);
-      // console.log("token", tokenUser);
+    // setToken(localStorage[LOCAL_TOKEN_USER]);
+    // console.log("token", tokenUser);
     // }
     try {
       await axios
@@ -34,9 +34,10 @@ const AuthContextProvider = ({ children }) => {
           },
         })
         .then((res) => {
+          console.log("loadUser", res.data)
           dispatch({
             type: "SET_AUTH",
-            payload: { isAuth: true, isConfirm: true, user: res.data},
+            payload: { isAuth: true, isConfirm: true, user: res.data },
           });
         });
     } catch (error) {
@@ -44,7 +45,7 @@ const AuthContextProvider = ({ children }) => {
       // setToken(null);
       dispatch({
         type: "SET_AUTH",
-        payload: { isAuth: false, isConfirm: false, user: null},
+        payload: { isAuth: false, isConfirm: false, user: null },
       });
     }
   };
@@ -71,10 +72,13 @@ const AuthContextProvider = ({ children }) => {
       );
       if (response.data.user) {
         localStorage.setItem(LOCAL_TOKEN_USER, response.data.jwt);
+        setLoading(false);
+
       }
       await loadUser();
       return response.data;
     } catch (error) {
+      setLoading(false);
       return error.response.data;
     }
   };
@@ -99,13 +103,33 @@ const AuthContextProvider = ({ children }) => {
       console.log(error);
     }
   };
+
   const logoutUser = () => {
     localStorage.clear();
     dispatch({
       type: "SET_AUTH",
-      payload: { isAuth: false, isConfirm: false ,user: null, ward: null },
+      payload: { isAuth: false, isConfirm: false, user: null, ward: null },
     });
   };
+
+  const getLatLngLocation = async (location) => {
+    try {
+      const response = await axios.get(`https://address-from-to-latitude-longitude.p.rapidapi.com/geolocationapi?address=${location}`, {
+        headers: {
+          'X-RapidAPI-Key': 'ea13cd457amsh86dc8fb8dd6122dp13fcacjsn6c56b9491b75',
+          'X-RapidAPI-Host': 'address-from-to-latitude-longitude.p.rapidapi.com'
+        }
+      })
+      console.log("context", response.data)
+      if (response.data.Results.length) {
+        localStorage.setItem(LATITUDE, response.data?.Results[0]?.latitude)
+        localStorage.setItem(LONGITUDE, response.data?.Results[0]?.longitude)
+      }
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     loadUser();
@@ -119,6 +143,7 @@ const AuthContextProvider = ({ children }) => {
     loginUser,
     registerUser,
     logoutUser,
+    getLatLngLocation,
     updateUser,
     authState,
   };

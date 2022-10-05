@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { toast } from 'react-toastify';
 
-export default function Login({ changeStateModal }) {
-  const { loginUser, loading } = useContext(AuthContext);
+export default function Login() {
+  const { loginUser, getLatLngLocation, loading } = useContext(AuthContext);
   const [loginForm, setLoginForm] = useState({
     identifier: "",
     password: "",
@@ -30,8 +30,8 @@ export default function Login({ changeStateModal }) {
     try {
       const sendData = await loginUser(loginForm);
       console.log(sendData)
-      if (sendData?.error?.status === 400) {
-        toast.error('❗ Email hoặc mật khẩu không đúng !', {
+      if (sendData?.error) {
+        toast.error(`❗${sendData?.error?.message}`, {
           position: "top-right",
           autoClose: 4000,
           hideProgressBar: false,
@@ -40,17 +40,9 @@ export default function Login({ changeStateModal }) {
           draggable: true,
           progress: undefined,
         });
-      } else if (sendData?.error) {
-        toast.error('❗ Lỗi Server !', {
-          position: "top-right",
-          autoClose: 4000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        return null;
       }
+      await getLatLngLocation(`${sendData?.user?.street}, ${sendData?.user?.ward}, ${sendData?.user?.distinct}, ${sendData?.user?.city}`);
     } catch (error) {
       console.error(error);
     }
