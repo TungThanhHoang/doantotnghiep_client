@@ -1,6 +1,6 @@
 import "./Navbar.css";
-import React, { useState, useContext, useEffect, useCallback } from "react";
-import { Link, useHistory, NavLink } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
 import { ShoppingCartOutlined, MenuOutlined } from "@ant-design/icons";
 import {
   LogOut,
@@ -22,6 +22,10 @@ import { CartContext } from "../../../contexts/CartContext";
 import CardSearch from "../CardSearch/CardSearch";
 import CardSearchMobile from "../CardSearch/CardSearchMobile";
 import { LOCAL_TOKEN_NAV } from "../../../contexts/constants";
+
+import { getMarketLocation } from "./navSlice";
+import { getMarket } from "../../../redux/selector";
+import { useSelector } from "react-redux";
 export default function Navbar() {
   const history = useHistory();
   const {
@@ -36,14 +40,23 @@ export default function Navbar() {
   const [SearchState, setSearchState] = useState(false);
   const [MenuState, setMenuState] = useState(false);
   const [navbarMobile, setNavbarMobile] = useState("home");
+
+  const market = useSelector(getMarket);
+  console.log(market);
+
   useEffect(() => {
     loadItemCart();
     // eslint-disable-next-line
   }, []);
 
+
+  useEffect(() => {
+    Promise.add([getMarketLocation()])
+  }, [])
+
   useEffect(() => {
     setNavbarMobile(localStorage.getItem(LOCAL_TOKEN_NAV));
-  });
+  }, [navbarMobile]);
 
   const handleLogout = () => {
     logoutUser();
@@ -127,10 +140,13 @@ export default function Navbar() {
               </Link>
             </div>
             <div className="location">
-              <MapPin style={{ color: "orange" }} size={18} />
               <div className="ward-location">
-                {ward}, {district}
+                <select id="countries" class=" cursor-pointer block py-4 px-4 w-full text-md font-bold text-slate-800 bg-transparent border-0  focus:outline-none focus:ring-0 focus:border-gray-200 peer ">
+                  <option value="US">Lotte Market</option>
+                  <option value="CA">Go Việt Nam</option>
+                </select>
               </div>
+              <span className="ml-4 text-slate-800 font-medium text-sm">Khoảng cách: 3.2km</span>
             </div>
             <CardSearch />
             <div className="navbar-user">

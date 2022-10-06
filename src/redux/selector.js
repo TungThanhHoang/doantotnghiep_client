@@ -1,0 +1,1 @@
+export const getMarket = (state) => state.nav.markets;

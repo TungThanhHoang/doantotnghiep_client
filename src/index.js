@@ -8,22 +8,26 @@ import CartContextProvider from "./contexts/CartContext";
 import CheckOutContextProvider from "./contexts/CheckOutContext";
 import CategoryContextProvider from "./contexts/CategoryContext";
 import SearchContextProvider from "./contexts/SearchContext";
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 ReactDOM.render(
   <AuthContextProvider>
-    <CategoryContextProvider>
-      <ProductContextProvider>
-        <CartContextProvider>
-          <CheckOutContextProvider>
-            <SearchContextProvider>
-              {/* <React.StrictMode> */}
-              <App />
-              {/* </React.StrictMode> */}
-            </SearchContextProvider>
-          </CheckOutContextProvider>
-        </CartContextProvider>
-      </ProductContextProvider>
-    </CategoryContextProvider>
+    <Provider store={store}>
+      <CategoryContextProvider>
+        <ProductContextProvider>
+          <CartContextProvider>
+            <CheckOutContextProvider>
+              <SearchContextProvider>
+                {/* <React.StrictMode> */}
+                <App />
+                {/* </React.StrictMode> */}
+              </SearchContextProvider>
+            </CheckOutContextProvider>
+          </CartContextProvider>
+        </ProductContextProvider>
+      </CategoryContextProvider>
+    </Provider>
   </AuthContextProvider>,
   document.getElementById("root")
 );
