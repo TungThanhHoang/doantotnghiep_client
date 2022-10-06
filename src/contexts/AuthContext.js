@@ -34,7 +34,6 @@ const AuthContextProvider = ({ children }) => {
           },
         })
         .then((res) => {
-          console.log("loadUser", res.data)
           dispatch({
             type: "SET_AUTH",
             payload: { isAuth: true, isConfirm: true, user: res.data },
@@ -120,7 +119,6 @@ const AuthContextProvider = ({ children }) => {
           'X-RapidAPI-Host': 'address-from-to-latitude-longitude.p.rapidapi.com'
         }
       })
-      console.log("context", response.data)
       if (response.data.Results.length) {
         localStorage.setItem(LATITUDE, response.data?.Results[0]?.latitude)
         localStorage.setItem(LONGITUDE, response.data?.Results[0]?.longitude)

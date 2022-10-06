@@ -29,7 +29,6 @@ export default function Login() {
     }
     try {
       const sendData = await loginUser(loginForm);
-      console.log(sendData)
       if (sendData?.error) {
         toast.error(`❗${sendData?.error?.message}`, {
           position: "top-right",

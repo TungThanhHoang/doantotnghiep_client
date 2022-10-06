@@ -21,12 +21,14 @@ import { ProductContext } from "../../../contexts/ProductContext";
 import { CartContext } from "../../../contexts/CartContext";
 import CardSearch from "../CardSearch/CardSearch";
 import CardSearchMobile from "../CardSearch/CardSearchMobile";
-import { LOCAL_TOKEN_NAV } from "../../../contexts/constants";
+import { LATITUDE, LOCAL_TOKEN_NAV, LONGITUDE } from "../../../contexts/constants";
 
-import { getMarketLocation } from "./navSlice";
-import { getMarket } from "../../../redux/selector";
-import { useSelector } from "react-redux";
+import { getMarketLocation, getDistance } from "./navSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getMarketSelector, getMarkerSelector } from '../../../redux/selector';
+
 export default function Navbar() {
+  const dispatch = useDispatch();
   const history = useHistory();
   const {
     authState: {
@@ -34,25 +36,35 @@ export default function Navbar() {
     },
     logoutUser,
   } = useContext(AuthContext);
+  
+  const market = useSelector(getMarketSelector);
+  const marker = useSelector(getMarkerSelector);
 
   const { cartItem, deleteItemCart, loadItemCart } = useContext(CartContext);
   const { formatPrice } = useContext(ProductContext);
   const [SearchState, setSearchState] = useState(false);
   const [MenuState, setMenuState] = useState(false);
   const [navbarMobile, setNavbarMobile] = useState("home");
+  const [coordinates, setCoordinates] = useState(null);
 
-  const market = useSelector(getMarket);
-  console.log(market);
 
+  console.log(marker);
+  const handleSelectMarket = (e) => {
+    const findItem = market?.find(item => item.id === Number(e.target.value));
+    setCoordinates({ lng: findItem?.attributes?.longitude, lat: findItem?.attributes?.latitude })
+  }
   useEffect(() => {
     loadItemCart();
     // eslint-disable-next-line
   }, []);
 
-
   useEffect(() => {
-    Promise.add([getMarketLocation()])
-  }, [])
+    const market = async () => {
+      await dispatch(getMarketLocation());
+      await dispatch(getDistance(`${localStorage.getItem(LONGITUDE)},${localStorage.getItem(LATITUDE)};${coordinates?.lng},${coordinates?.lat}`));
+    }
+    market();
+  }, [coordinates])
 
   useEffect(() => {
     setNavbarMobile(localStorage.getItem(LOCAL_TOKEN_NAV));
@@ -62,6 +74,7 @@ export default function Navbar() {
     logoutUser();
     window.location.reload();
   };
+
   const handleNavigation = (a) => {
     localStorage.setItem(LOCAL_TOKEN_NAV, a);
     setNavbarMobile(navbarMobile);
@@ -74,7 +87,7 @@ export default function Navbar() {
       history.push({ pathname: "/user/info" });
     }
   };
-  // console.log("hello");
+
   const renderCartItems = (
     <div className="cart">
       <h4 className="title">Sản phẩm vừa thêm</h4>
@@ -141,12 +154,11 @@ export default function Navbar() {
             </div>
             <div className="location">
               <div className="ward-location">
-                <select id="countries" class=" cursor-pointer block py-4 px-4 w-full text-md font-bold text-slate-800 bg-transparent border-0  focus:outline-none focus:ring-0 focus:border-gray-200 peer ">
-                  <option value="US">Lotte Market</option>
-                  <option value="CA">Go Việt Nam</option>
+                <select onChange={handleSelectMarket} id="countries" className=" cursor-pointer block py-4 px-4 w-full text-md font-bold text-slate-800 bg-transparent border-0  focus:outline-none focus:ring-0 focus:border-gray-200 peer ">
+                  {market?.map((item) => <option key={item.id} value={item.id}>{item.attributes.name}</option>)}
                 </select>
               </div>
-              <span className="ml-4 text-slate-800 font-medium text-sm">Khoảng cách: 3.2km</span>
+              <span className="ml-4 text-slate-800 font-medium text-sm">Khoảng cách: {(marker[0].distance/1000).toFixed(1)}km</span>
             </div>
             <CardSearch />
             <div className="navbar-user">
