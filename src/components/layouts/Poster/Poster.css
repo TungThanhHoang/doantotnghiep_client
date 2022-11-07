@@ -15,7 +15,7 @@
     bottom: 30px;
     margin-left: 30px;
     border: none;
-    background-color: var(--color-background);
+    /* background-color: var(--color-background); */
     padding: .8rem 1.8rem;
     border-radius: 10px;
     color: var(--color-font);
@@ -38,7 +38,8 @@
     box-shadow: rgba(14, 30, 37, .12) 0px 2px 4px 0px;
 }
 
-.ant-carousel .slick-next {
+
+/* .ant-carousel .slick-next {
     right: 6px;
     background-color: var(--color-background);
     border-radius: 11px;
@@ -63,7 +64,7 @@
 .ant-carousel .slick-next:focus {
     color: #fff;
     background-color: var(--color-background);
-}
+} */
 
 .poster-main .slick-dots li button:before {
     display: none;
@@ -73,7 +74,12 @@
     margin: 0;
 }
 
-@media screen and (max-width: 767px) {
+.slick-arrow .slick-next {
+    background-color: red;
+}
+
+
+/* @media screen and (max-width: 767px) {
     .poster-main__right {
         display: none;
     }
@@ -81,4 +87,4 @@
     .ant-carousel .slick-prev {
         display: none !important;
     }
-}
+} */

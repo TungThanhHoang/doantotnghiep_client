@@ -10,25 +10,65 @@ const CheckOutContextProvider = ({ children }) => {
   const [summaryBill, setSummaryBill] = useState([]);
   const getToken = localStorage.getItem(LOCAL_TOKEN_USER);
   const [isLoadingBill, setLoadingBill] = useState(false);
-  const orderProducts = async (formProduct) => {
+
+  const orderProducts = async (formProduct, ...attributes) => {
+    setLoadingBill(true)
     try {
-      const response = await axios.post(`${API_URL}/bills`, formProduct, {
+      const response = await axios.post(`${API_URL}/bills`, { data: formProduct, attributes }, {
         headers: {
           Authorization: `Bearer ${getToken}`,
         },
       });
       if (response.data) {
         setPayment(response.data);
+        setLoadingBill(false);
       }
       return response.data;
     } catch (error) {
+      setLoadingBill(false);
       console.log(error);
     }
   };
+
+  const checkoutByStripe = async (formProduct) => {
+    setLoadingBill(true)
+    try {
+      const response = await axios.post(`${API_URL}/bills/stripe-payment`, formProduct, {
+        headers: {
+          Authorization: `Bearer ${getToken}`,
+        },
+      });
+      // if (response.data) {
+      //   console.log(response.data)
+      //   // window.location.href=response.data
+      //   setLoadingBill(false);
+      // }
+      setLoadingBill(false);
+      return response.data;
+    } catch (error) {
+      setLoadingBill(false);
+      console.log(error);
+    }
+  };
+
+  const confirmCheckOut = async (session_id) => {
+    try {
+      const response = await axios.post(`${API_URL}/bills/confirm`, session_id, {
+        headers: {
+          Authorization: `Bearer ${getToken}`
+        }
+      })
+      return response.data
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
   const loadBill = async () => {
     try {
       await axios
-        .get(`${API_URL}/bills?_sort=createdAt:DESC`, {
+        .get(`${API_URL}/bills`, {
           headers: {
             Authorization: `Bearer ${getToken}`,
           },
@@ -43,14 +83,14 @@ const CheckOutContextProvider = ({ children }) => {
     setLoadingBill(true);
     try {
       await axios
-        .get(`${API_URL}/bills/${idBill}`, {
+        .get(`${API_URL}/bills/${idBill}?populate[items][populate][product][populate][0]=picture&populate[payment_method]=payment_method`, {
           headers: {
             Authorization: `Bearer ${getToken}`,
           },
         })
         .then((res) => {
           setLoadingBill(false);
-          setBillItem(res.data);
+          setBillItem(res.data?.data);
         })
         .catch((err) => console.log(err));
     } catch (error) {
@@ -61,7 +101,7 @@ const CheckOutContextProvider = ({ children }) => {
   const handleLoadBillDeivery = async () => {
     try {
       await axios
-        .get(`${API_URL}/bills?status=${stateBill}&_sort=createdAt:DESC`, {
+        .get(`${API_URL}/bills?status=${stateBill}`, {
           headers: {
             Authorization: `Bearer ${getToken}`,
           },
@@ -75,7 +115,7 @@ const CheckOutContextProvider = ({ children }) => {
     try {
       const response = await axios.put(
         `${API_URL}/bills/${idBillOrder}`,
-        { status: "canceled" },
+        { "data": { status: "Đã hủy" } },
         {
           headers: {
             Authorization: `Bearer ${getToken}`,
@@ -83,6 +123,7 @@ const CheckOutContextProvider = ({ children }) => {
         }
       );
       if (response.data) {
+        window.location.reload();
         loadBill();
       }
     } catch (error) {
@@ -102,6 +143,8 @@ const CheckOutContextProvider = ({ children }) => {
     loadItemBill,
     handleLoadBillDeivery,
     updateBillStateCancel,
+    checkoutByStripe,
+    confirmCheckOut
   };
   return (
     <CheckOutContext.Provider value={contextData}>

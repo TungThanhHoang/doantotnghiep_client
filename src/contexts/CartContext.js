@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 import axios from "axios";
-import { API_URL, LOCAL_TOKEN_CART_ITEM, LOCAL_TOKEN_USER } from "./constants";
+import { API_URL, LOCAL_TOKEN_USER } from "./constants";
 export const CartContext = createContext();
 
 const CartContextProvider = ({ children }) => {
@@ -8,27 +8,18 @@ const CartContextProvider = ({ children }) => {
   const [isloading, setIsLoading] = useState(false);
   const getToken = localStorage.getItem(LOCAL_TOKEN_USER);
 
-  const loadItemCart = async  () => {
+  const loadItemCart = async () => {
     const token = await localStorage.getItem(LOCAL_TOKEN_USER);
     try {
-      const response = await axios.get(`${API_URL}/items`, {
+      const response = await axios.get(`${API_URL}/items?populate=*`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       if (response.data) {
-        localStorage.setItem(
-          LOCAL_TOKEN_CART_ITEM,
-          JSON.stringify(response.data.filter((item) => item !== null))
-        );
+        setCartItem(response.data);
+        return null;
       }
-      const item = localStorage.getItem(LOCAL_TOKEN_CART_ITEM);
-      if (item) {
-        const StoreItem = JSON.parse(item);
-        setCartItem(StoreItem);
-      }
-
-      return response.data;
     } catch (error) {
       console.log(error);
     }
@@ -45,7 +36,6 @@ const CartContextProvider = ({ children }) => {
         .then((res) => {
           if (res.data) {
             loadItemCart();
-            console.log("Xoá Thành Công", res.data);
           }
         })
         .catch((err) => console.log(err));
@@ -54,15 +44,17 @@ const CartContextProvider = ({ children }) => {
     }
   };
 
-  const addProductToCart = async (productId, quanlityId) => {
-    const item = cartItem.find((idItem) => idItem.products.id === productId);
+  const addProductToCart = async (productId, quantityId) => {
+    const item = cartItem?.find((idItem) => idItem.product.id === productId);
     try {
       setIsLoading(true);
       if (item) {
         const response = await axios.put(
           `${API_URL}/items/${item.id}`,
           {
-            quanlity: parseInt(item.quanlity) + parseInt(quanlityId),
+            data: {
+              quantity: parseInt(item.quantity) + parseInt(quantityId)
+            }
           },
           {
             headers: {
@@ -73,14 +65,15 @@ const CartContextProvider = ({ children }) => {
         if (response.data) {
           setIsLoading(false);
           loadItemCart();
-          console.log(response.data);
         }
       } else {
         const response = await axios.post(
           `${API_URL}/items`,
           {
-            products: productId,
-            quanlity: 1,
+            data: {
+              product: productId,
+              quantity: quantityId,
+            }
           },
           {
             headers: {
@@ -91,7 +84,6 @@ const CartContextProvider = ({ children }) => {
         if (response.data) {
           setIsLoading(false);
           loadItemCart();
-          console.log(response.data);
         }
       }
     } catch (error) {
@@ -99,16 +91,15 @@ const CartContextProvider = ({ children }) => {
     }
   };
 
-  const increaseQuanlity = async (itemId, quanlity) => {
+  const increaseQuanlity = async (itemId, quantity) => {
     try {
-      if (quanlity < 10) {
-        console.log("test", cartItem);
+      if (quantity < 10) {
         setIsLoading(true);
         await axios
           .put(
             `${API_URL}/items/${itemId}`,
             {
-              quanlity: parseInt(quanlity) + 1,
+              data: { quantity: parseInt(quantity) + 1, }
             },
             {
               headers: {
@@ -120,25 +111,25 @@ const CartContextProvider = ({ children }) => {
             if (res.data) {
               setIsLoading(false);
               loadItemCart();
-              console.log("Tăng sản phẩm", cartItem.quanlity);
+              return res.data
             }
           });
+          return "done";
       } else {
-        alert("Đã đạt tối đa số lượng!");
+        alert("Đã đạt tối thiểu số lượng!");
       }
     } catch (error) {
       console.log(error);
     }
   };
-  const decreaseQuanlity = async (itemId, quanlity) => {
+  const decreaseQuanlity = async (itemId, quantity) => {
     try {
-      if (quanlity > 1) {
-        console.log("test", cartItem);
+      if (quantity > 1) {
         await axios
           .put(
             `${API_URL}/items/${itemId}`,
             {
-              quanlity: parseInt(quanlity) - 1,
+              data: { quantity: parseInt(quantity) - 1 }
             },
             {
               headers: {
@@ -149,9 +140,9 @@ const CartContextProvider = ({ children }) => {
           .then((res) => {
             if (res.data) {
               loadItemCart();
-              console.log("Tăng sản phẩm", cartItem.quanlity);
             }
-          });
+          })
+          return "done";
       } else {
         alert("Đã đạt tối thiểu số lượng!");
       }

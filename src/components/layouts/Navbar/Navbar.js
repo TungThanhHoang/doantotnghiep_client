@@ -1,6 +1,6 @@
 import "./Navbar.css";
 import React, { useState, useContext, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { ShoppingCartOutlined, MenuOutlined } from "@ant-design/icons";
 import {
   LogOut,
@@ -15,60 +15,76 @@ import {
   Gift,
 } from "react-feather";
 import { Badge, Dropdown, Menu } from "antd";
+import Lottie from "react-lottie";
+import loadingSvg from '../../../assets/loadingMarket.json'
 import CartItem from "../CartItem";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { ProductContext } from "../../../contexts/ProductContext";
 import { CartContext } from "../../../contexts/CartContext";
 import CardSearch from "../CardSearch/CardSearch";
 import CardSearchMobile from "../CardSearch/CardSearchMobile";
-import { LATITUDE, LOCAL_TOKEN_NAV, LONGITUDE } from "../../../contexts/constants";
+import { LATITUDE, LOCAL_TOKEN_NAV, LONGITUDE, MARKET } from "../../../contexts/constants";
 
-import { getMarketLocation, getDistance } from "./navSlice";
+import navSlice, { getMarketLocation, getDistance } from "./navSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { getMarketSelector, getMarkerSelector } from '../../../redux/selector';
+import { getMarketSelector, getMarkerSelector, selectMarketSelector } from '../../../redux/selector';
+
+const DEFAULT_OPTIONS = {
+  loop: true,
+  autoplay: true,
+  animationData: loadingSvg,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
 
 export default function Navbar() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
   const {
     authState: {
-      user: { firstname, ward, district },
+      user: { firstName, ward, district },
     },
     logoutUser,
   } = useContext(AuthContext);
-  
+
   const market = useSelector(getMarketSelector);
   const marker = useSelector(getMarkerSelector);
+  const valueMarket = useSelector(selectMarketSelector);
 
   const { cartItem, deleteItemCart, loadItemCart } = useContext(CartContext);
   const { formatPrice } = useContext(ProductContext);
   const [SearchState, setSearchState] = useState(false);
   const [MenuState, setMenuState] = useState(false);
   const [navbarMobile, setNavbarMobile] = useState("home");
-  const [coordinates, setCoordinates] = useState(null);
+  const [isLoadingDistance, setIsLoadingDistance] = useState(false);
 
-
-  console.log(marker);
-  const handleSelectMarket = (e) => {
-    const findItem = market?.find(item => item.id === Number(e.target.value));
-    setCoordinates({ lng: findItem?.attributes?.longitude, lat: findItem?.attributes?.latitude })
+  const handleOnChangeMarket = (e) => {
+    dispatch(navSlice.actions.onChangeMarket(e.target.value));
+    // const findItem = market?.find(item => item.id === JSON.parse(localStorage.getItem(MARKET)).id);
+    // setCoordinates({ lng: findItem?.attributes?.longitude, lat: findItem?.attributes?.latitude })
   }
+
   useEffect(() => {
+    dispatch(getMarketLocation());
     loadItemCart();
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
+    setIsLoadingDistance(true)
     const market = async () => {
-      await dispatch(getMarketLocation());
-      await dispatch(getDistance(`${localStorage.getItem(LONGITUDE)},${localStorage.getItem(LATITUDE)};${coordinates?.lng},${coordinates?.lat}`));
+      await dispatch(getDistance(`${localStorage.getItem(LONGITUDE)},${localStorage.getItem(LATITUDE)};${JSON.parse(localStorage.getItem(MARKET))?.attributes.longitude},${JSON.parse(localStorage.getItem(MARKET))?.attributes.latitude}`));
     }
     market();
-  }, [coordinates])
+    setIsLoadingDistance(false);
+    // eslint-disable-next-line
+  }, [valueMarket])
 
   useEffect(() => {
     setNavbarMobile(localStorage.getItem(LOCAL_TOKEN_NAV));
-  }, [navbarMobile]);
+  });
 
   const handleLogout = () => {
     logoutUser();
@@ -115,7 +131,7 @@ export default function Navbar() {
       ) : (
         ""
       )}
-      <Link to="/cart" className="cart-view">
+      <Link to="/cart" className="cart-view bg-yellow-300 text-white hover:bg-yellow-400 hover:text-white">
         Xem Giỏ Hàng
       </Link>
     </div>
@@ -129,6 +145,16 @@ export default function Navbar() {
       </Menu.Item>
       <Menu.Item key="2">
         <span>
+          <Link to="/user/notify">Thông báo</Link>
+        </span>
+      </Menu.Item>
+      <Menu.Item key="3">
+        <span>
+          <Link to="/user/bill">Đơn hàng</Link>
+        </span>
+      </Menu.Item>
+      <Menu.Item key="4">
+        <span>
           <button className="btn-logout" onClick={() => handleLogout()}>
             <LogOut size={20} className="icon-logout" /> Thoát
           </button>
@@ -140,6 +166,25 @@ export default function Navbar() {
   return (
     <>
       <nav>
+        {!localStorage.getItem(MARKET) && <div className="fixed inset-0 z-40 flex items-end bg-black bg-opacity-75 mb-14 sm:mb-0  sm:items-start sm:justify-center appear-done enter-done">
+          <div className="w-full  px-6 py-4 overflow-hidden bg-white rounded-t-lg sm:rounded-lg sm:m-4 sm:max-w-3xl appear-done enter-done">
+            <div>
+              <div>
+                <div className="flex justify-between mb-5 mt-2">
+                  <div className="capitalize font-bold text-slate-700 text-lg">
+                    Chọn siêu thị
+                  </div>
+                </div>
+                <div className="flex justify-center flex-col mx-auto items-center pb-4">
+                  <select onChange={handleOnChangeMarket} id="countries" className=" cursor-pointer block py-4 px-4 w-full text-md font-bold text-slate-800 bg-gray-50 rounded-md  focus:outline-none focus:ring-0 focus:border-gray-200 peer ">
+                    <option value="">Chọn siêu thị</option>
+                    {market?.map((item) => <option key={item.id} value={item.id}>{item.attributes.name}</option>)}
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>}
         <div className="container">
           <div className="navbar">
             <div onClick={() => setMenuState(!MenuState)} className="icon-menu">
@@ -154,15 +199,23 @@ export default function Navbar() {
             </div>
             <div className="location">
               <div className="ward-location">
-                <select onChange={handleSelectMarket} id="countries" className=" cursor-pointer block py-4 px-4 w-full text-md font-bold text-slate-800 bg-transparent border-0  focus:outline-none focus:ring-0 focus:border-gray-200 peer ">
+                <span className="font-medium text-xs ml-1 text-gray-500">Siêu thị</span>
+                <select disabled={location.pathname === "/checkout"} value={JSON.parse(localStorage.getItem(MARKET))?.id} onChange={handleOnChangeMarket} id="countries" className=" mt-1 cursor-pointer block pr-6 w-full text-md font-bold text-slate-800 focus:outline-none focus:ring-0 focus:border-gray-200 peer ">
                   {market?.map((item) => <option key={item.id} value={item.id}>{item.attributes.name}</option>)}
                 </select>
               </div>
-              <span className="ml-4 text-slate-800 font-medium text-sm">Khoảng cách: {(marker[0].distance/1000).toFixed(1)}km</span>
+              {isLoadingDistance ? <Lottie options={DEFAULT_OPTIONS} height={80} width={80} /> :
+                (<div className="ml-2">
+                  <span className="text-xs font-medium ml-4 text-gray-500">Vị trí của bạn</span>
+                  <div className="ml-4 mt-1 text-slate-800 font-medium text-sm transition ease-in-out duration-300">{(marker[0]?.distance / 1000).toFixed(1)}km</div>
+                </div>
+                )
+              }
             </div>
+
             <CardSearch />
             <div className="navbar-user">
-              <div className="nav-name__user">Xin chào, {firstname}</div>
+              <div className="nav-name__user">Xin chào, {firstName}</div>
               <Dropdown overlay={menu} placement="bottomRight" arrow>
                 <div>
                   <div className="nav-background__user">
@@ -174,8 +227,9 @@ export default function Navbar() {
             </div>
             <div className="navbar-cart">
               <Dropdown overlay={renderCartItems} placement="bottomRight" arrow>
-                <Badge count={cartItem?.length}>
-                  <ShoppingCartOutlined className="navbar-icon-cart" />
+                <Badge status="warning" count={cartItem?.length}>
+                  {/* <box-icon size="sm" name='shopping-bag'></box-icon> */}
+                  <ShoppingCartOutlined className="text-3xl" />
                 </Badge>
               </Dropdown>
             </div>

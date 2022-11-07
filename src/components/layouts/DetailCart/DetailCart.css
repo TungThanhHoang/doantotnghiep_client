@@ -14,11 +14,8 @@
     border-radius: .4rem;
     text-align: center;
     padding: .8rem;
-    color: var(--color-background);
     font-size: 14px;
     font-weight: 500;
-    background-color: #fff;
-    background-color: var(--color-overlay);
 }
 
 .detail-cart .main-left .content-cart {}
@@ -81,16 +78,17 @@
 }
 
 .detail-cart .main-left .content-cart img {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     border-radius: 6px;
-    margin-left: .6rem;
+    margin-left: .2rem;
 }
 
 .detail-cart .main-left .content-cart .name-product {
     /* margin-right: 2rem; */
     color: var(--color-font-two);
     font-weight: 500;
+    font-size: 1rem;
 }
 
 .detail-cart .main-left .total-product {
@@ -118,8 +116,8 @@
 .detail-cart .main-left .total-price {
     text-align: right;
     width: 80px;
-    margin-right: 2.5rem;
-    color: var(--color-gray);
+    margin-right: 4rem;
+    /* color: var(--color-gray); */
 }
 
 .detail-cart .main-left .quanlity-product input {
@@ -139,7 +137,6 @@
 
 .detail-cart .main-left .btn-increase,
 .btn-decrease {
-    background-color: var(--color-background);
     padding: 0 !important;
     width: 40px;
     height: 40px;
@@ -147,15 +144,12 @@
     justify-content: center;
     align-items: center;
     border-radius: .2rem;
-    color: #000;
     cursor: pointer;
     border: none;
 }
 
 .detail-cart .main-left .btn-remove {
-    width: 50px;
-    text-align: center;
-    margin-right: 1rem;
+    margin-right: 1.5rem;
     cursor: pointer;
 }
 
@@ -194,8 +188,6 @@
     padding: .6rem;
     margin: 1rem;
     border: none;
-    background-color: var(--color-background);
-    color: var(--color-font);
     border-radius: .4rem;
     font-weight: 600;
     cursor: pointer;
@@ -225,7 +217,6 @@
         overflow: hidden;
         white-space: normal;
         text-overflow: ellipsis;
-        font-weight: 500;
         color: var(--color-font-two);
     }
     .detail-cart .main-left .quanlity-product {

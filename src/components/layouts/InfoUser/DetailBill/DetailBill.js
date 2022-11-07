@@ -4,9 +4,11 @@ import { Row, Col, Modal, message, Button } from "antd";
 import { useParams } from "react-router-dom";
 import { CheckOutContext } from "../../../../contexts/CheckOutContext";
 import { ProductContext } from "../../../../contexts/ProductContext";
-import { apiUrl } from "../../../../contexts/constants";
 import LoadingPage from "../../LoadingPage";
 import { ExclamationCircleOutlined, QrcodeOutlined } from "@ant-design/icons";
+import FormatDate from "../../../../utils/FormatDate";
+import CheckStatusOrder from "../../../../utils/CheckStatusOrder";
+import BillItem from "../BillItem/BillItem";
 
 const { confirm } = Modal;
 function DetailBill() {
@@ -20,11 +22,6 @@ function DetailBill() {
     loadItemBill(id);
   }, []);
 
-  const formatDate = (createdAt) => {
-    const date = new Date(createdAt);
-    const dateOrder = date.toLocaleString("en-Us");
-    return dateOrder;
-  };
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -44,23 +41,35 @@ function DetailBill() {
         const sendData = updateBillStateCancel(idBill);
         if (sendData) {
           message.success("Hủy đơn hàng thành công");
-          window.location.reload();
+          // window.location.reload();
         }
       },
-      onCancel() {},
+      onCancel() { },
     });
   };
   const ProductItem = ({
     item: {
-      quanlity,
-      products: {
-        Price,
-        size,
-        title,
-        picture: {
-          0: { url },
+      attributes: {
+        quantity,
+        product: {
+          data: {
+            attributes: {
+              price,
+              size,
+              title,
+              picture: {
+                data: {
+                  0: {
+                    attributes: {
+                      url
+                    }
+                  }
+                }
+              },
+            }
+          }
         },
-      },
+      }
     },
   }) => (
     <div>
@@ -76,29 +85,18 @@ function DetailBill() {
         <Col xs={10} sm={16} md={16} lg={16} xl={16}>
           <Row>
             <Col xs={24} sm={6} md={6} lg={6} xl={6}>
-              <div className="title-wrap ">{formatPrice.format(Price)}</div>
+              <div className="title-wrap ">{formatPrice.format(price)}</div>
             </Col>
             <Col xs={24} sm={6} md={6} lg={6} xl={6}>
-              <div className="title-wrap ">x{quanlity}</div>
+              <div className="title-wrap ">x{quantity}</div>
             </Col>
             <Col xs={24} sm={6} md={6} lg={6} xl={6}>
               <div className="title-wrap ">
-                {" "}
-                {size === "onebox"
-                  ? "Hộp"
-                  : size === "onebotlle"
-                  ? "Chai"
-                  : size === "fivegram"
-                  ? "500g"
-                  : size === "onegram"
-                  ? "100g"
-                  : size === "onekilogram"
-                  ? "1kg"
-                  : "1 túi"}
+                {size}
               </div>
             </Col>
             <Col xs={24} sm={6} md={6} lg={6} xl={6}>
-              <div className="title-wrap ">{formatPrice.format(Price)}</div>
+              <div className="title-wrap ">{formatPrice.format(price)}</div>
             </Col>
           </Row>
         </Col>
@@ -117,7 +115,7 @@ function DetailBill() {
         }
       >
         <div>
-          <div dangerouslySetInnerHTML={{ __html: billItem?.imgcode }} />
+          <div dangerouslySetInnerHTML={{ __html: billItem?.attributes?.qrCode }} />
         </div>
       </Modal>
       <h2 style={{ color: "var(--color-font-two)", fontWeight: "500" }}>
@@ -130,20 +128,12 @@ function DetailBill() {
           <div className="info-order">
             <div>
               <span>Mã đơn:</span>
-              <span className="code-order">#{billItem.id_code}</span>
+              <span className="code-order">#{billItem?.attributes?.id_code}</span>
             </div>
             <div className="status-order">
-              <div className="date-order">{formatDate(billItem.createdAt)}</div>
+              <div className="date-order">{FormatDate(billItem?.attributes?.createdAt)}</div>
               <div className="title-status">
-                {billItem.status === "confirmed"
-                  ? "Đã xác nhận"
-                  : billItem.status === "unconfirmed"
-                  ? "Chưa xác nhận"
-                  : billItem.status === "deliveried"
-                  ? "Đã giao hàng"
-                  : billItem.status === "delivery"
-                  ? "Đang giao hàng"
-                  : "Đã hủy"}
+                {billItem?.attributes?.status}
               </div>
             </div>
           </div>
@@ -162,15 +152,15 @@ function DetailBill() {
                       fontWeight: "500",
                     }}
                   >
-                    {billItem.name}
+                    {billItem?.attributes?.userName}
                   </h4>
                   <div>
                     <span>Điện thoại:</span>
-                    <span className="phone-user">{billItem.phone}</span>
+                    <span className="phone-user">{billItem?.attributes?.phone}</span>
                   </div>
                   <div>
                     <span>Địa chỉ:</span>
-                    <span className="address-delivery">{billItem.address}</span>
+                    <span className="address-delivery">{billItem?.attributes?.address}</span>
                   </div>
                 </div>
               </div>
@@ -183,51 +173,7 @@ function DetailBill() {
                   Hình thức giao hàng
                 </h4>
                 <div className="card-order__info">
-                  {billItem?.status === "unconfirmed" ||
-                  billItem.status === "canceled" ? (
-                    <div
-                      style={{
-                        color: "var(--color-font-two)",
-                        fontWeight: "500",
-                      }}
-                    >
-                      Đơn hàng chưa vận chuyển
-                    </div>
-                  ) : billItem.status === "confirmed" ? (
-                    <div
-                      style={{
-                        color: "var(--color-font-two)",
-                        fontWeight: "500",
-                      }}
-                    >
-                      Đơn hàng đã được xác nhận
-                    </div>
-                  ) : (
-                    <div>
-                      <div>
-                        Giao hàng bởi nhân viên{" "}
-                        <span style={{ color: "var(--color-font-two)" ,fontWeight:500 }}>
-                          Shopping market
-                        </span>
-                      </div>
-                      {billItem.status === "deliveried" ? (
-                        <div>
-                          <span style={{ marginRight: "5px" }}>
-                            Đã giao hàng:
-                          </span>
-                          <span className="date-delivery">
-                            {formatDate(billItem.updatedAt)}
-                          </span>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                      <div>
-                        <span>Phí vận chuyển:</span>
-                        <span className="address-delivery">15.000đ</span>
-                      </div>
-                    </div>
-                  )}
+                  {billItem?.attributes?.status}
                 </div>
               </div>
             </Col>
@@ -248,11 +194,18 @@ function DetailBill() {
                         fontWeight: "500",
                       }}
                     >
-                      {billItem.payment}
+                      {billItem?.attributes?.payment_method?.data?.attributes?.title}
                     </h4>
                   </div>
+                  <p className="mt-2 text-slate-800">{billItem?.attributes?.payment_status}</p>
                 </div>
               </div>
+            </Col>
+          </Row>
+          <Row className=" my-4">
+            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+              <span className="font-medium">Lưu chú</span>
+              <textarea value={billItem?.attributes?.note} rows={3} className="mt-2 w-full border p-2 rounded-md" disabled>{billItem?.attributes?.note}</textarea>
             </Col>
           </Row>
           <Row className="card-thank">
@@ -260,7 +213,7 @@ function DetailBill() {
               <span>Cảm ơn bạn đã mua sắm !</span>
             </Col>
             <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-              {billItem.status === "unconfirmed" ? (
+              {billItem?.attributes?.status === "Chờ xác nhận" ? (
                 <button
                   onClick={() => {
                     handleBillCancel(id);
@@ -268,7 +221,7 @@ function DetailBill() {
                 >
                   Hủy đơn hàng
                 </button>
-              ) : billItem.status === "deliveried" ? (
+              ) : billItem?.attributes?.status === "Đã giao hàng" ? (
                 <button>Mua lại</button>
               ) : (
                 ""
@@ -301,8 +254,8 @@ function DetailBill() {
             </Col>
           </Row>
           <div className="product-order">
-            {billItem.cart?.map((item) => (
-              <ProductItem item={item} />
+            {billItem?.attributes?.items?.data?.map((item, index) => (
+              <ProductItem key={index} item={item} />
             ))}
           </div>
           <div className="detail-price">
@@ -314,7 +267,7 @@ function DetailBill() {
                   </Col>
                   <Col span={12}>
                     <div className="number-column">
-                      {formatPrice.format(billItem.price - 15000)}
+                      {formatPrice.format(billItem?.attributes?.sub_total)}
                     </div>
                   </Col>
                 </Row>
@@ -324,7 +277,17 @@ function DetailBill() {
                   </Col>
                   <Col span={12}>
                     <div className="number-column">
-                      {formatPrice.format(15000)}
+                      {formatPrice.format(billItem?.attributes?.delivery_fee)}
+                    </div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={12}>
+                    <div className="column-title">Khuyến mãi</div>
+                  </Col>
+                  <Col span={12}>
+                    <div className="number-column text-red-500">
+                      -{formatPrice.format(billItem?.attributes?.discount)}
                     </div>
                   </Col>
                 </Row>
@@ -334,7 +297,7 @@ function DetailBill() {
                   </Col>
                   <Col span={12}>
                     <div className="number-column price-order">
-                      {formatPrice.format(billItem.price)}
+                      {formatPrice.format(billItem?.attributes?.total)}
                     </div>
                   </Col>
                 </Row>

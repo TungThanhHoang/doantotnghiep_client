@@ -4,7 +4,7 @@
 
 .detail-product__right {
     /* margin-left: 1rem; */
-    padding: 6rem 1rem;
+    padding: 2rem 1rem;
 }
 
 .detail-product__left .ant-image {
@@ -162,6 +162,29 @@
 .detail-product__right .icon-message {
     display: flex;
     align-items: center;
+}
+
+
+/* Custom Slick */
+
+.detail-product__left .slick-dots {
+    /* position: relative !important; */
+    margin-top: 15px !important;
+    bottom: unset !important;
+}
+
+.detail-product__left .slick-dots li {
+    width: 80px;
+    border: 1px solid #eee;
+    height: 80px !important;
+}
+
+.detail-product__left .slick-dots li:hover {
+    border-color: var(--color-background);
+}
+
+.detail-product__left .slick-active {
+    border-color: var(--color-background) !important;
 }
 
 @media screen and (max-width:992px) {

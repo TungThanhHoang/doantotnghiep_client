@@ -38,7 +38,7 @@ export default function Poster() {
                       }}
                     >
                       <div className="title-banner">{item.title}</div>
-                      <button className="btn-buy">Mua Ngay</button>
+                      <button className="btn-buy bg-yellow-300">Mua Ngay</button>
                     </div>
                   </div>
                 );

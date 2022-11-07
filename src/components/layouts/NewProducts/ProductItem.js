@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { MapPin, ShoppingCart } from "react-feather";
 import { Button, message } from "antd";
 import { CartContext } from "../../../contexts/CartContext";
+import Promotion from "../../../utils/Promotion";
+import { PlusOutlined } from '@ant-design/icons'
 
 function ProductItem({
   product: {
@@ -12,6 +13,7 @@ function ProductItem({
       price,
       slug,
       size,
+      promotion,
       picture: {
         data: {
           0: {
@@ -34,8 +36,10 @@ function ProductItem({
     }
     return addCart;
   };
+
   return (
     <div className="card-product__item">
+      <span className="absolute left-2 top-2 z-10 text-xs bg-yellow-300 px-3 py-1 rounded-full text-yellow-600 font-medium">-{promotion.split(" ").pop()}</span>
       <Link
         to={{
           pathname: `/product/${id}`,
@@ -47,51 +51,26 @@ function ProductItem({
           src={url}
           alt=""
           style={{
-            width: "100%",
-            height: "170px",
+            width: "145px",
+            height: "145px",
             borderRadius: "10px",
           }}
         />
-        <div className="title-product">{title}</div>
-        <div className="address-product">
-          <MapPin size={14} style={{ color: "orange" }} />
-          <span></span>
+
+        <div className="title-product mt-3 ">{title}</div>
+        <div className="main-product">
+          <div className="price-product font-normal text-slate-900 ">{formatPrice.format(promotion ? Promotion(promotion) * price : price)}</div>
+          {promotion !== null && <div className="font-normal ml-2 line-through text-slate-500 text-xs ">{formatPrice.format(price)}</div>}
         </div>
         <div className="main-product">
-          <div className="price-product">{formatPrice.format(price)}</div>
-          <div className="weight-product">
-            {size === "onebox"
-              ? "Hộp"
-              : size === "onebotlle"
-                ? "Chai"
-                : size === "fivegram"
-                  ? "500g"
-                  : size === "onegram"
-                    ? "100g"
-                    : size === "onekilogram"
-                      ? "1kg"
-                      : "1 túi"}
-          </div>
+          {size}
         </div>
+        <span className="ml-3 p-1 rounded-full text-xs px-3 text-yellow-700 bg-yellow-300">Sale</span>
       </Link>
       <Button className="add-cart" onClick={() => handleAddProduct(id, 1)}>
-        <span>Thêm vào giỏ</span>
-        <ShoppingCart size={18} />
+        <PlusOutlined className="text-xl text-white" style={{ color: 'white' }} />
       </Button>
-
-      {/* {isloading && (
-        <Button
-          loading
-          className="add-cart"
-          onClick={() => {
-            handleAddProduct(id);
-          }}
-        >
-          <span>Thêm vào giỏ</span>
-          <ShoppingCart size={18} />
-        </Button>
-      )} */}
-    </div>
+    </div >
   );
 }
 

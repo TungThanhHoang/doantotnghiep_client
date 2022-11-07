@@ -32,27 +32,28 @@ export default function BillOrder() {
   useEffect(() => {
     handleLoadBillDeivery();
   }, [stateBill]);
+  
   useEffect(() => {
     if (activeTabKey === "1") {
     }
 
     if (activeTabKey === "2") {
-      setStateBill("unconfirmed");
+      setStateBill("Chờ xác nhận");
     }
 
     if (activeTabKey === "3") {
-      setStateBill("confirmed");
+      setStateBill("Chờ lấy hàng");
     }
 
     if (activeTabKey === "4") {
-      setStateBill("delivery");
+      setStateBill("Đang giao hàng");
     }
 
     if (activeTabKey === "5") {
-      setStateBill("deliveried");
+      setStateBill("Đã giao hàng");
     }
     if (activeTabKey === "6") {
-      setStateBill("canceled");
+      setStateBill("Đã hủy");
     }
   }, [activeTabKey]);
 
@@ -72,28 +73,28 @@ export default function BillOrder() {
               ))
             : emptyBill}
         </TabPane>
-        <TabPane tab="Chưa Xác Nhận" key="2">
+        <TabPane tab="Chờ Xác Nhận" key="2">
           {summaryBill.length
             ? summaryBill.map((item) => (
                 <BillItem key={item.id} bill={item} formatPrice={formatPrice} />
               ))
             : emptyBill}
         </TabPane>
-        <TabPane tab="Đã Xác Nhận" key="3">
+        <TabPane tab="Chờ lấy hàng" key="3">
           {summaryBill.length
             ? summaryBill.map((item) => (
                 <BillItem key={item.id} bill={item} formatPrice={formatPrice} />
               ))
             : emptyBill}
         </TabPane>
-        <TabPane tab="Đang Giao" key="4">
+        <TabPane tab="Đang giao hàng" key="4">
           {summaryBill.length
             ? summaryBill.map((item) => (
                 <BillItem key={item.id} bill={item} formatPrice={formatPrice} />
               ))
             : emptyBill}
         </TabPane>
-        <TabPane tab="Đã Giao" key="5">
+        <TabPane tab="Đã giao hàng" key="5">
           {summaryBill.length
             ? summaryBill.map((item) => (
                 <BillItem key={item.id} bill={item} formatPrice={formatPrice} />

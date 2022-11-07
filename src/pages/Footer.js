@@ -8,7 +8,7 @@ function Footer() {
   return (
     <div className="footer-wrap">
       <BannerFooter />
-      <InfoUs />
+      {/* <InfoUs /> */}
       <MenuFooter />
       <CopyRight />
     </div>

@@ -7,23 +7,42 @@
     cursor: pointer;
 }
 
+.card-product__wrap:hover img {
+    transform: scale(1.03);
+}
+
+.box-product .card-product__wrap .box-image {
+    width: 145px;
+    height: 145px;
+    margin: 0 auto;
+    position: relative;
+}
+
 .box-product .card-product__wrap img {
+    padding-top: 5px;
+    transition: .2s ease-in;
     width: 100%;
-    height: 180px;
-    border-radius: 10px 10px 0 0;
+    height: 100%;
+    position: absolute;
 }
 
 .box-product .card-product .card-product__wrap {
     background-color: #fff;
-    margin: .3rem;
+    margin: .35rem;
     height: 315px;
     border-radius: 10px;
-    /* box-shadow: rgba(14, 30, 37, .12) 0px 2px 4px 0px; */
-    border: 1px solid var(--color-border);
+    box-shadow: rgba(14, 30, 37, .10) 0px 2px 4px 0px;
+    border: 1px solid transparent;
 }
 
 .box-product .card-product .card-product__wrap:hover {
-    box-shadow: 5px 5px 15px rgb(0 0 0 / 5%)
+    box-shadow: 5px 5px 15px rgb(0 0 0 / 5%);
+    border: 1px solid var(--color-overlay);
+    transition: .2s ease-in-out;
+}
+
+.box-product .card-product .card-product__wrap:hover #icon {
+    color: #fff;
 }
 
 .card-product__wrap .quality-product {
@@ -36,6 +55,7 @@
     font-weight: bold;
     text-transform: capitalize;
     color: var(--color-font-two);
+    font-size: 1.1rem;
 }
 
 .card-product__wrap .ward-product {
@@ -65,31 +85,23 @@
 .card-product__wrap button {
     position: absolute;
     bottom: 8px;
-    transform: translateX(-50%);
-    left: 50%;
-    margin-bottom: .4rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 90%;
-    align-items: center;
-    background-color: #fff;
-    background-color: var(--color-overlay);
-    color: var(--color-background);
-    padding: .4rem;
-    border-radius: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    /* background-color: rgb(34 197 94); */
+    top: 40%;
+    right: 15px;
     transition: .2s ease-in-out;
-    cursor: pointer;
-    border: none
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.card-product__wrap:hover button {
+.card-product__wrap button:hover {
     background-color: var(--color-background);
     border: none;
     color: #fff;
 }
-
-.card-product__wrap:hover .title-add-cart {}
 
 .card-product__wrap:hover {
     box-shadow: rgba(14, 30, 37, .12) 0px 2px 4px 0px

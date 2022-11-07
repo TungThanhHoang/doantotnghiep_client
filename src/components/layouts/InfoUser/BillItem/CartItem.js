@@ -3,10 +3,10 @@ import { apiUrl } from "../../../../contexts/constants";
 
 function CartItem({
   cart: {
-    quanlity,
-    products: {
+    quantity,
+    product: {
       title,
-      Price,
+      price,
       size,
       picture: {
         0: { url },
@@ -15,6 +15,7 @@ function CartItem({
   },
   formatPrice,
 }) {
+
   return (
     <div className="product-item">
       <img src={url} alt="" />
@@ -23,23 +24,12 @@ function CartItem({
         <div className="weight-product">
           Phân loại:{" "}
           <span>
-            {" "}
-            {size === "onebox"
-              ? "Hộp"
-              : size === "onebotlle"
-              ? "Chai"
-              : size === "fivegram"
-              ? "500g"
-              : size === "onegram"
-              ? "100g"
-              : size === "onekilogram"
-              ? "1kg"
-              : "1 túi"}
+          {size}
           </span>
         </div>
-        <div className="quanlity-product">SL: X{quanlity}</div>
+        <div className="quanlity-product">SL: X{quantity}</div>
       </div>
-      <div className="price-product">{formatPrice.format(Price)}</div>
+      <div className="price-product">{formatPrice.format(price)}</div>
     </div>
   );
 }

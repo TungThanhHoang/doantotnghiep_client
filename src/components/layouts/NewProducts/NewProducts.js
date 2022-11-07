@@ -2,13 +2,11 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./NewProducts.css";
 import React, { useContext, useEffect } from "react";
-import slug from "slug";
 import { ArrowRight } from "react-feather";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import { ProductContext } from "../../../contexts/ProductContext";
 import ProductItem from "./ProductItem";
-import { AuthContext } from "../../../contexts/AuthContext";
 
 function NewProducts() {
   const {
@@ -20,45 +18,43 @@ function NewProducts() {
     loadNewProduct();
   }, []);
 
-console.log(newProducts);
 
   var settings = {
-    dots: true,
     infinite: false,
     speed: 500,
     slidesToShow: 5,
-    slidesToScroll: 3,
+    slidesToScroll: 5,
     initialSlide: 0,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 4,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
-        },
+          infinite: true,
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
       },
       {
         breakpoint: 480,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
-    ],
+          slidesToScroll: 2
+        }
+      }
+    ]
   };
   return (
-    <div className="card-new__main">
+    <div className="card-new__main relative">
       <div className="card-header">
-        <div className="card-new__title"> Sản Phẩm Mới </div>
+        <div className="card-new__title"> Sản Phẩm khuyến mãi</div>
         <Link to="">
           <div className="view-all__product">
             <span> Xem Tất Cả</span> <ArrowRight size={20} />

@@ -211,10 +211,10 @@ function Category() {
                   </Col>
                 </Row>
               </div>
-              <h2 className="title-view ">Sản phẩm</h2>
+              <h2 className="title-view text-xl font-medium">Sản phẩm</h2>
               {isLoadingItem ? <LoadingPage /> : ""}
               <Row className="box-product">
-                {productFilter.length === 0 && (
+                {productFilter?.length === 0 && (
                   <Lottie options={defaultOptions} height={200} width={200} />
                 )}
                 {productFilter?.map((item) => {

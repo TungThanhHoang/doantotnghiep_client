@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import axios from "axios";
-import { API_URL } from "../../../contexts/constants";
+import { API_URL, DISTANCE, MARKET } from "../../../contexts/constants";
 
 export const getMarketLocation = createAsyncThunk("navbar/market", async (thunkAPI) => {
     try {
@@ -15,6 +15,7 @@ export const getMarketLocation = createAsyncThunk("navbar/market", async (thunkA
 export const getDistance = createAsyncThunk("market/distance", async (data, thunkAPI) => {
     try {
         const response = await axios.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${data}.json?access_token=pk.eyJ1IjoidGhhbmh0dW5nMTc2IiwiYSI6ImNremY3Y3EzZTNmM2Uyb3BoZnNuYjJrOWMifQ.QHgDzZUGqnkSzOWVZOyBtQ`)
+        localStorage.setItem(DISTANCE, JSON.stringify({ distance: response?.data?.routes[0]?.distance, duration: response?.data?.routes[0]?.duration }));
         return response?.data?.routes;
     } catch (error) {
         return thunkAPI.rejectWithValue(error?.response?.data);
@@ -26,7 +27,22 @@ const navSlice = createSlice({
     initialState: {
         loading: false,
         markets: [],
-        markers: null,
+        markers: [],
+        selectMarket: null,
+        isMarket: true,
+    },
+    reducers: {
+        onChangeMarket: (state, action) => {
+            state.selectMarket = action.payload;
+            const findMarket = state.markets.find(item => item.id === Number(action.payload));
+            localStorage.setItem(MARKET, JSON.stringify(findMarket));
+            if (!localStorage.getItem(MARKET)) {
+                state.isMarket = true;
+            } else {
+                state.isMarket = false;
+            }
+        }
+
     },
     extraReducers: {
         [getMarketLocation.pending]: (state, action) => {

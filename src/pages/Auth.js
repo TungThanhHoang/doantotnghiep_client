@@ -26,7 +26,7 @@ export default function Auth({ authRouter }) {
     <div div className="container-auth">
       {modalConfirm && (
         <div className="fixed inset-0 z-40 flex items-end bg-black bg-opacity-10 sm:items-center sm:justify-center appear-done enter-done">
-          <div className="w-full h-3/5 px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-2xl appear-done enter-done">
+          <div className="w-full h-3/5 px-6 py-4 overflow-hidden bg-white rounded-t-lg  sm:rounded-lg sm:m-4 sm:max-w-2xl appear-done enter-done">
             <div>
               <div>
                 <div className="flex justify-between mb-5 mt-2">

@@ -6,6 +6,7 @@ import { ProductContext } from "../../../contexts/ProductContext";
 import { SearchContext } from "../../../contexts/SearchContext";
 import Lottie from "react-lottie";
 import empty from "../../../assets/empty1.json";
+import useDebounce from "../../../libs/useDebounce";
 function CardSearchMobile({ setSearchState }) {
   const {
     productState: { newProducts },
@@ -13,11 +14,17 @@ function CardSearchMobile({ setSearchState }) {
   } = useContext(ProductContext);
   const { searchProduct, searchItem, stringSearch, setStringSearch } =
     useContext(SearchContext);
+
+  const filterDebounce = useDebounce(stringSearch, 300)
+
   useEffect(() => {
-    if (stringSearch !== null) {
-      searchProduct();
+    const filterItem = async () => {
+      if (stringSearch !== null) {
+        await searchProduct(filterDebounce);
+      }
     }
-  }, [stringSearch]);
+    filterItem()
+  }, [filterDebounce]);
 
   const defaultOptions = {
     loop: true,
@@ -33,11 +40,19 @@ function CardSearchMobile({ setSearchState }) {
   const SearchProductItem = ({
     item: {
       id,
-      title,
-      Price,
-      picture: {
-        0: { url },
-      },
+      attributes: {
+        title,
+        price,
+        picture: {
+          data: {
+            0: {
+              attributes: {
+                url
+              }
+            }
+          }
+        },
+      }
     },
   }) => (
     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
@@ -55,7 +70,7 @@ function CardSearchMobile({ setSearchState }) {
         />
         <div className="product-item product-item__mobile">
           <div className="title-product__search">{title}</div>
-          <span className="price-product">{formatPrice.format(Price)}</span>
+          <span className="price-product">{formatPrice.format(price)}</span>
         </div>
       </Link>
     </Col>
@@ -79,7 +94,7 @@ function CardSearchMobile({ setSearchState }) {
           <div>
             <h4 className="title-search">Sản phẩm mới</h4>
             <Row className="container__wrap">
-              {newProducts?.slice(0, 6).map((item, index) => (
+              {newProducts?.map((item, index) => (
                 <SearchProductItem key={index} item={item} />
               ))}
             </Row>

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useMemo } from "react";
+import React, { useContext, useState, useMemo, useEffect } from "react";
 import "./DetailCart.css";
 import { useHistory } from "react-router-dom";
 import { Row, Col, message, Modal } from "antd";
@@ -8,16 +8,17 @@ import { CartContext } from "../../../contexts/CartContext";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import Lottie from "react-lottie";
 import loading from "../../../assets/cart-empty.json";
+import Promotion from "../../../utils/Promotion";
 const { confirm } = Modal;
+
 function DetailCart() {
   const { cartItem, deleteItemCart, increaseQuanlity, decreaseQuanlity } =
     useContext(CartContext);
+
   const { formatPrice } = useContext(ProductContext);
-  // const [checkOut, setCheckOut] = useState([]);
   const [checkedState, setCheckedState] = useState([...cartItem].fill(false));
   const [totalPrice, setTotalPrice] = useState(0);
   const history = useHistory();
-
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -34,7 +35,7 @@ function DetailCart() {
     setCheckedState(updatedCheckedState);
     const total = updatedCheckedState.reduce((sum, currentState, index) => {
       if (currentState === true) {
-        return sum + cartItem[index].products.Price * cartItem[index].quanlity;
+        return sum + (cartItem[index].product?.promotion ? Promotion(cartItem[index].product?.promotion) * cartItem[index].product.price : cartItem[index].product.price) * cartItem[index].quantity;
       }
       return sum;
     }, 0);
@@ -66,22 +67,20 @@ function DetailCart() {
         setCheckedState([...cartItem].fill(false));
       },
       onCancel() {
-        console.log("Cancel");
       },
     });
   };
 
-  const handleIncrease = (id, quanlity) => {
-    const increase = increaseQuanlity(id, quanlity);
+  const handleIncrease = async (id, quanlity) => {
+    const increase = await increaseQuanlity(id, quanlity);
     if (increase) {
       message.success("Tăng số lượng thành công !", 1);
     }
     return increase;
   };
-  const handleDecrease = (id, quanlity) => {
-    const decrease = decreaseQuanlity(id, quanlity);
+  const handleDecrease = async (id, quanlity) => {
+    const decrease = await decreaseQuanlity(id, quanlity);
     if (decrease) {
-      console.log(decrease);
       message.success("Giảm số lượng thành công !", 1);
     }
     return decrease;
@@ -90,7 +89,6 @@ function DetailCart() {
     if (newarray.length === 0) {
       message.warning("Vui lòng chọn ít nhất 1 sản phẩm !", 2);
     } else {
-      message.loading("Loading ...", 1);
       const local = {
         pathname: "/checkout",
         state: { newarray, totalPrice },
@@ -105,7 +103,7 @@ function DetailCart() {
           <div className="main-left">
             {cartItem.length !== 0 && (
               <Col>
-                <div className="notify-cart">
+                <div className="notify-cart bg-yellow-400 text-yellow-50">
                   Chọn sản phẩm để tiến hành thanh toán
                 </div>
               </Col>
@@ -164,7 +162,7 @@ function DetailCart() {
                   {formatPrice.format(totalPrice)}
                 </div>
               </div>
-              <button onClick={() => handleCheckProduct()}>Thanh Toán</button>
+              <button className="bg-yellow-500 text-white hover:bg-yellow-600" onClick={() => handleCheckProduct()}>Mua hàng</button>
             </div>
           </div>
         </Col>

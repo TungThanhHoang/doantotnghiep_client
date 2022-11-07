@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "./InfoUser.css";
 import { NavLink, useLocation } from "react-router-dom";
-import { Edit3, User, Clipboard, Bell, DollarSign } from "react-feather";
+import { Edit3 } from "react-feather";
 import { Row, Col } from "antd";
 import DetailUser from "../components/layouts/InfoUser/DetailUser";
 import BillOrder from "../components/layouts/InfoUser/BillOrder";
@@ -11,9 +11,10 @@ import Notify from "../components/layouts/InfoUser/Notify";
 import DetailBill from "../components/layouts/InfoUser/DetailBill/DetailBill";
 import Voucher from "../components/layouts/InfoUser/Voucher";
 function InfoUser({ userRouter }) {
+  const { pathname } = useLocation()
   const {
     authState: {
-      user: { firstname, lastname },
+      user: { firstName, lastName },
     },
   } = useContext(AuthContext);
 
@@ -40,7 +41,7 @@ function InfoUser({ userRouter }) {
               />
               <div className="info-user">
                 <div>
-                  {lastname} {firstname}
+                  {lastName} {firstName}
                 </div>
                 <div>
                   <Edit3 size={18} />
@@ -51,39 +52,35 @@ function InfoUser({ userRouter }) {
             <div className="menu-user">
               <NavLink
                 to="/user/info"
-                className="user-info__item card-menu__item"
+                className="user-info__item card-menu__item "
                 activeClassName="active"
               >
-                <User className="icon-user" size={20} />
-                <span className="title-menu">Tài Khoản Của Tôi</span>
-                {/* <div className="menu-sub__user">
-                <Link to="/user/info">Hồ Sơ</Link>
-                <Link to="/user/change-password">Đổi Mật Khẩu</Link>
-              </div> */}
+                <box-icon color="#555" name='id-card'></box-icon>
+                <span className="font-medium text-sm text-slate-700">Tài Khoản Của Tôi</span>
               </NavLink>
               <NavLink
                 to="/user/bill"
-                className="card-menu__item user-info__item"
+                className={`card-menu__item user-info__item ${pathname.includes("detail-bill") && "active"}`}
                 activeClassName="active"
               >
-                <Clipboard className="icon-bill" size={20} />
-                <span className="title-menu">Đơn Mua</span>
+                <box-icon color="#555" name='shopping-bag'></box-icon>
+                <span className="font-medium text-sm text-slate-700">Đơn Mua</span>
               </NavLink>
               <NavLink
                 to="/user/notify"
                 className="card-menu__item user-info__item"
                 activeClassName="active active-text"
               >
-                <Bell className="icon-notify" size={20} />
-                <span className="title-menu"> Thông Báo</span>
+                <box-icon color="#555" name='bell'></box-icon>
+                <span className="font-medium text-sm text-slate-700"> Thông Báo</span>
               </NavLink>
               <NavLink
                 to="/user/voucher"
                 className="card-menu__item user-info__item"
                 activeClassName="active active-text"
               >
-                <DollarSign className="icon-voucher" size={20} />
-                <span className="title-menu"> Kho Voucher</span>
+                <box-icon color="#555" name='gift'></box-icon>
+                <span className="font-medium text-sm text-slate-700"> Kho Voucher</span>
               </NavLink>
             </div>
           </div>

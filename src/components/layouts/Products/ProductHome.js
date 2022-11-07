@@ -1,25 +1,15 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import CardProduct from "./CardProduct";
 import { Row } from "antd";
 import "./ProductHome.css";
-import { ProductContext } from "../../../contexts/ProductContext";
 
-function ProductHome() {
-  const {
-    productState: { products },
-    loadProduct,
-    formatPrice,
-  } = useContext(ProductContext);
-
-  useEffect(() => {
-    loadProduct();
-  }, []);
+function ProductHome({ product, formatPrice, title }) {
 
   return (
-    <div className="main-product">
-      <div className="card-new__title">Các loại sản phẩm</div>
+    <div className="main-product mb-8">
+      <div className="card-new__title">{title}</div>
       <Row className="box-product">
-        {products?.map((item) => {
+        {product?.map((item) => {
           return (
             <CardProduct
               key={item.id}

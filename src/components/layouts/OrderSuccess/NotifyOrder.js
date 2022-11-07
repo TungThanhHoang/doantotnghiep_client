@@ -1,29 +1,57 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./NotifyOrder.css";
 import Lottie from "react-lottie";
 import { Link, useLocation } from "react-router-dom";
-import loading from '../../../assets/orderSuccess.json'
+import loading from '../../../assets/orderSuccess-2.json'
+import { CheckOutContext } from "../../../contexts/CheckOutContext";
+
+const defaultOptions = {
+  loop: false,
+  autoplay: true,
+  animationData: loading,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
+
 function NotifyOrder() {
   const location = useLocation();
-  const idCode = location.state.code;
-  const defaultOptions = {
-    loop: false,
-    autoplay: true,
-    animationData: loading,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
+
+  const searchParams = new URLSearchParams(location?.search);
+
+  const { confirmCheckOut } = useContext(CheckOutContext);
+
+  const [order, setOrder] = useState(location?.state?.code);
+
+
+  useEffect(() => {
+    if (!searchParams.get('session_id')) {
+      return null;
+    }
+    const confirmByCheckOut = async () => {
+      const result = await confirmCheckOut({ "checkout_session": searchParams.get('session_id') })
+      setOrder(result.id_code)
+    }
+    confirmByCheckOut()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <div className="notify-success">
       <div>
-        <Lottie options={defaultOptions} height={400} width={400} />
+        <Lottie options={defaultOptions} height={350} width={350} />
       </div>
-      <div className="title-success">Đặt hàng thành công</div>
-      <span className="code-order">Mã đơn hàng: {idCode} </span>
-      <div className="navigation-user">
-        <Link to="/user/bill"> Chi tiết đơn hàng</Link>
-        <Link to="/"> Trở về trang chủ</Link>
+      <div className="title-success">Xác nhận đặt hàng thành công</div>
+      <div>
+        <span className="text-slate-500">Mã đơn hàng:</span><span className="ml-2 text-red-600">#{order}</span>
+      </div>
+      <div className="flex items-center mt-5 space-x-4">
+        <button className="border hover:bg-yellow-400 border-yellow-300 bg-yellow-300 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-8 py-3 text-center inline-flex items-center mr-2 mb-2">
+          <Link className="text-slate-800" to="/user/bill"> Chi tiết đơn hàng</Link>
+        </button>
+        <button className="hover:text-white border border-gray-400 hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-8 py-3 text-center mr-2 mb-2 ">
+          <Link className="text-slate-800 hover:text-slate-800" to="/"> Trở về trang chủ</Link>
+        </button>
       </div>
     </div>
   );

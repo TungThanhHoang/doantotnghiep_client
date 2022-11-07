@@ -1,27 +1,38 @@
 import React from "react";
+import Promotion from "../../utils/Promotion";
 function CartItem({
   itemcart: {
-    id:itemId,
-    products: {
+    id,
+    quantity,
+    product: {
       title,
-      Price,
+      price,
+      promotion,
       picture: {
-        0: { url },
-      },
+        0: {
+          url
+        }
+      }
     },
   },
   formatPrice,
 }) {
+
   return (
     <>
-      <div className="cart-item">
+      <div className="cart-item flex justify-start">
         <img
           src={url}
           alt=""
-          style={{ width: "50px", height: "50px" }}
+          style={{ width: "70px", height: "70px" }}
         />
-        <div className="cart-title">{title}</div>
-        <div className="cart-price">{formatPrice.format(Price)}</div>
+        <div className="ml-4  grow">
+          <div className="text-md font-medium capitalize">{title}</div>
+          <div className="flex justify-between">
+            <span>x{quantity}</span>
+            <span className="cart-price">{formatPrice.format( promotion ? Promotion(promotion) * price : price )}</span>
+          </div>
+        </div>
       </div>
     </>
   );

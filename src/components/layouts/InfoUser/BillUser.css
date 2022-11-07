@@ -13,8 +13,7 @@
 }
 
 .bill-item:hover {
-    /* opacity: .6; */
-    background-color: rgba(250, 247, 235, 0.6);
+    box-shadow: 5px 5px 15px rgb(0 0 0 / 5%);
 }
 
 .bill-item .state-bill {

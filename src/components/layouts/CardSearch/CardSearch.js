@@ -8,6 +8,7 @@ import { SearchContext } from "../../../contexts/SearchContext";
 import Lottie from "react-lottie";
 import empty from "../../../assets/empty1.json";
 import useOnClickOutside from "../../../Hook/UseOnClickOutSide";
+import useDebounce from "../../../libs/useDebounce";
 function CardSearch() {
   const ref = useRef();
   const [searchModal, setSearchModal] = useState(false);
@@ -16,12 +17,19 @@ function CardSearch() {
   } = useContext(ProductContext);
   const { searchProduct, searchItem, stringSearch, setStringSearch } =
     useContext(SearchContext);
-  const { formatPrice } = useContext(ProductContext)  
+
+  const { formatPrice } = useContext(ProductContext)
+
+  const filterDebounce = useDebounce(stringSearch, 300)
+
   useEffect(() => {
-    if (stringSearch !== null) {
-      searchProduct();
+    const filterItem = async () => {
+      if (stringSearch !== null) {
+        await searchProduct(filterDebounce);
+      }
     }
-  }, [stringSearch]);
+    filterItem()
+  }, [filterDebounce]);
 
   useOnClickOutside(ref, () => setSearchModal(false));
 
@@ -33,15 +41,23 @@ function CardSearch() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-// dfdfdf
+  // dfdfdf
   const SearchProductItem = ({
     item: {
       id,
-      title,
-      Price,
-      picture: {
-        0: { url },
-      },
+      attributes: {
+        title,
+        price,
+        picture: {
+          data: {
+            0: {
+              attributes: {
+                url
+              }
+            }
+          }
+        },
+      }
     },
   }) => (
     <Col xs={24} sm={24} md={24} lg={24} xl={12}>
@@ -53,13 +69,13 @@ function CardSearch() {
         <img src={url} alt="" className="bg-img" width={50} height={50} />
         <div className="product-item">
           <div className="title-product__search">{title}</div>
-          <span className="price-product">{formatPrice.format(Price)}</span>
+          <span className="price-product">{formatPrice.format(price)}</span>
         </div>
       </Link>
     </Col>
   );
   return (
-    <div className="navbar-search">
+    <div className="navbar-search transition ease-in-out duration-800">
       <div>
         <input
           type="text"
@@ -90,7 +106,7 @@ function CardSearch() {
                     <SearchProductItem key={index} item={item} />
                   ))}
                 </Row>
-                {searchItem.length === 0 && (
+                {searchItem?.length === 0 && (
                   <div className=" search-empty">
                     <Lottie options={defaultOptions} height={150} width={150} />
                   </div>

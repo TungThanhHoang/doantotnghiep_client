@@ -1,4 +1,4 @@
-import { LOAD_NEW_PRODUCTS, LOAD_ONE_PRODUCT, LOAD_PRODUCTS } from "./Type";
+import { LOAD_NEW_PRODUCTS, LOAD_ONE_PRODUCT, LOAD_PRODUCTS, LOAD_PRODUCT_FRUIT, LOAD_PRODUCT_SEAFOOD } from "./Type";
 
 export const ProductReducer = (state, action) => {
   switch (action.type) {
@@ -21,6 +21,21 @@ export const ProductReducer = (state, action) => {
         product: action.payload,
         isLoading: false,
       };
+
+    case LOAD_PRODUCT_FRUIT:
+      return {
+        ...state,
+        productFruits: action.payload,
+        isLoading: false,
+      };
+
+    case LOAD_PRODUCT_SEAFOOD:
+      return {
+        ...state,
+        productSeaFoods: action.payload,
+        isLoading: false,
+      };
+
     // case ADD_TO_CART:
     //   const updateCart = [...payload.products];
     //   const updateCartIndex = updateCart.findIndex(

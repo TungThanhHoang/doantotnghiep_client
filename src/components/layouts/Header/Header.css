@@ -29,7 +29,7 @@
 }
 
 .header-main__left .main-left__item {
-    padding: 0 2px;
+    padding: 0 4px;
 }
 
 .header-main__left .main-left__item a {
@@ -38,7 +38,7 @@
 
 .header-main__left .main-left__item:not(:nth-child(3)) {
     border-right: 1px solid rgba(196, 196, 196, 0.53);
-    padding: 0 4px;
+    padding: 0 8px;
 }
 
 .header-main__left .main-left__item:nth-child(3) {

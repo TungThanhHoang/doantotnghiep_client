@@ -1,18 +1,15 @@
 import React, { createContext, useState } from "react";
 import axios from "axios";
 import { API_URL } from "./constants";
-import slug from "slug";
 export const SearchContext = createContext();
 const SearchContextProvider = ({ children }) => {
   const [searchItem, setSearchItem] = useState([]);
   const [stringSearch, setStringSearch] = useState("");
-  const searchProduct = async () => {
-    const getWard = localStorage.getItem("ward");
-    const convertWard = slug(getWard ? getWard : "");
+  const searchProduct = async (search) => {
     try {
       await axios
-        .get(`${API_URL}/products?wards.slug=${convertWard}&_q=${stringSearch}`)
-        .then((res) => setSearchItem(res.data))
+        .get(`${API_URL}/products?filters[title][$containsi]=${search}&populate=*`)
+        .then((res) => setSearchItem(res.data.data))
         .catch((err) => console.log(err));
     } catch (error) {
       console.log(error);

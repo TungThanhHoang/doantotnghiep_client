@@ -41,7 +41,7 @@ const CategoryContextProvider = ({ children }) => {
     try {
       setIsLoading(true);
       await axios
-        .get(`${API_URL}/categories/${catId}`)
+        .get(`${API_URL}/categories/${catId}?populate=*`)
         .then((res) => {
           setIsLoading(false);
           dispatch({ type: LOAD_CATEGORY, payload: res.data });
@@ -56,13 +56,13 @@ const CategoryContextProvider = ({ children }) => {
     try {
       await axios
         .get(
-          `${API_URL}/products?category._id=${id}&wards.slug=${ward}&Price_gte=${minPrice}&Price_lte=${maxPrice}`
+          `${API_URL}/products?filters[category][id][$eq]=${id}&filters[price][$gte]=${minPrice}&filters[price][$lte]=${maxPrice}&populate=*`
         )
         .then((res) => {
           setIsLoadingItem(false);
           dispatch({
             type: FILTER_CATEGORY_PRODUCT,
-            payload: res.data,
+            payload: res.data.data,
           });
         })
         .catch((err) => console.log(err));

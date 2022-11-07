@@ -64,6 +64,7 @@ const AuthContextProvider = ({ children }) => {
     }
   };
   const registerUser = async (formRegister) => {
+    setLoading(true);
     try {
       const response = await axios.post(
         `${API_URL}/auth/local/register`,
@@ -82,6 +83,7 @@ const AuthContextProvider = ({ children }) => {
     }
   };
   const updateUser = async (formUpdate, userId) => {
+    setLoading(true);
     const tokenUser = await localStorage[LOCAL_TOKEN_USER];
     try {
       const response = await axios.put(
@@ -95,10 +97,12 @@ const AuthContextProvider = ({ children }) => {
       );
       if (response.data) {
         // console.log(response.data);
+        setLoading(false);
         await loadUser();
       }
       return response.data;
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -112,6 +116,7 @@ const AuthContextProvider = ({ children }) => {
   };
 
   const getLatLngLocation = async (location) => {
+    setLoading(true);
     try {
       const response = await axios.get(`https://address-from-to-latitude-longitude.p.rapidapi.com/geolocationapi?address=${location}`, {
         headers: {
@@ -120,11 +125,13 @@ const AuthContextProvider = ({ children }) => {
         }
       })
       if (response.data.Results.length) {
+        setLoading(false);
         localStorage.setItem(LATITUDE, response.data?.Results[0]?.latitude)
         localStorage.setItem(LONGITUDE, response.data?.Results[0]?.longitude)
       }
       return response.data;
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   }
