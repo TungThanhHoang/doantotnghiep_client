@@ -37,12 +37,13 @@
 }
 
 .detail-bill .card-order__info {
-    background-color: antiquewhite;
+    /* background-color: antiquewhite; */
     border-radius: 8px;
     padding: .8rem;
     margin: 3px;
     height: 127px;
     margin-top: 1rem;
+    border: 1px solid #eee;
 }
 
 .detail-bill .card-order__info .phone-user {
@@ -129,7 +130,7 @@
 }
 
 .detail-bill .price-order {
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 500;
     color: var(--color-price);
 }

@@ -60,7 +60,7 @@ function CheckoutCart() {
   });
   const { payment } = order;
 
-  const { orderProducts, isLoadingBill, checkoutByStripe } = useContext(CheckOutContext);
+  const { orderProducts, isLoadingBill, checkoutByStripe, checkoutMetaMask } = useContext(CheckOutContext);
 
   const [convertProduct, setConvertProduct] = useState("");
   const [sendCode] = useState({
@@ -73,17 +73,17 @@ function CheckoutCart() {
   const [routes, setRoutes] = useState(JSON.parse(localStorage.getItem(DISTANCE)))
   const [metaMaskModal, setMetaMaskModal] = useState(false);
   const [addressDelivery, setaddressDelivery] = useState(false);
-  const [addressForm, setAddressForm] = useState({ ward: ward, distinct: distinct, street: street, phone: phone, userName: `${lastName} ${firstName}` })
+  const [addressForm, setAddressForm] = useState({ ward: ward, distinct: distinct, street: street, phone: phone })
 
   stateItem.forEach(item => product_stripe.push({ title: item.product.title, price: item?.product.price, quantity: item?.quantity, image: item?.product?.picture[0]?.url }));
 
   // payment stripe
   const paymentStripe = async () => {
     let qrCode = '';
-    QRCode.toString(
+    await QRCode.toString(
       JSON.stringify({
         ...sendCode,
-        userName: `${addressForm.userName}`,
+        userName: `${addressForm.name}`,
         phone: `${addressForm.phone}`,
         address: `${addressForm.street}, ${addressForm.ward}, ${addressForm.distinct}`,
         id_code: JSON.stringify(code),
@@ -106,7 +106,7 @@ function CheckoutCart() {
       "products": product_stripe, shipping_fee: DeliveryFee(Number(routes?.distance / 1000).toFixed(1), totalPrice),
       "data": {
         ...order,
-        userName: `${addressForm.userName}`,
+        userName: `${addressForm.name}`,
         phone: `${addressForm.phone}`,
         address: `${addressForm.street}, ${addressForm.ward}, ${addressForm.distinct}`,
         id_code: JSON.stringify(code),
@@ -128,10 +128,10 @@ function CheckoutCart() {
   // payment cash
   const paymentCash = async () => {
     let qrCode = ''
-    QRCode.toString(
+    await QRCode.toString(
       JSON.stringify({
         ...sendCode,
-        userName: `${addressForm.userName}`,
+        userName: `${addressForm.name}`,
         phone: `${addressForm.phone}`,
         address: `${addressForm.street}, ${addressForm.ward}, ${addressForm.distinct}`,
         id_code: JSON.stringify(code),
@@ -151,7 +151,7 @@ function CheckoutCart() {
       });
     const submit = await orderProducts({
       ...order,
-      userName: `${addressForm.userName}`,
+      userName: `${addressForm.name}`,
       phone: `${addressForm.phone}`,
       address: `${addressForm.street}, ${addressForm.ward}, ${addressForm.distinct}`,
       id_code: JSON.stringify(code),
@@ -175,7 +175,57 @@ function CheckoutCart() {
     }
   }
 
-  //payment MetaMask
+  // payment MetaMask
+  const paymentBlock = async () => {
+    let qrCode = ''
+    await QRCode.toString(
+      JSON.stringify({
+        ...sendCode,
+        userName: `${addressForm.name}`,
+        phone: `${addressForm.phone}`,
+        address: `${addressForm.street}, ${addressForm.ward}, ${addressForm.distinct}`,
+        id_code: JSON.stringify(code),
+        product: convertProduct,
+        payment_method: checked,
+        discount: calculatorPromotion(),
+        sub_total: (totalPrice + calculatorPromotion()),
+        total: (totalPrice + DeliveryFee(Number(routes?.distance / 1000).toFixed(1), totalPrice))
+      }),
+      opts
+    )
+      .then((res) => {
+        qrCode = res
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    const submit = await checkoutMetaMask({
+      ...order,
+      userName: `${addressForm.name}`,
+      phone: `${addressForm.phone}`,
+      address: `${addressForm.street}, ${addressForm.ward}, ${addressForm.distinct}`,
+      id_code: JSON.stringify(code),
+      qrCode: qrCode,
+      payment_method: checked,
+      delivery_fee: DeliveryFee(Number(routes?.distance / 1000).toFixed(1), totalPrice),
+      note: note,
+      discount: calculatorPromotion(),
+      sub_total: (totalPrice + calculatorPromotion()),
+      total: (totalPrice + DeliveryFee(Number(routes?.distance / 1000).toFixed(1), totalPrice))
+
+    });
+    if (submit) {
+      message.success("Đơn hàng đã được đặt hàng thành công !", 3);
+      loadItemCart();
+      const local = {
+        pathname: "/order-success",
+        state: { code },
+      };
+      history.push(local);
+    }
+  }
+
+  //payment MetaMask Modal
   const paymentMetaMask = () => {
     setMetaMaskModal(true);
   }
@@ -184,6 +234,7 @@ function CheckoutCart() {
     setNote(e.target.value)
   }
 
+  // Calculator Promotion
   const calculatorPromotion = () => {
     let price_promotion = 0
     stateItem.forEach(item => {
@@ -191,6 +242,12 @@ function CheckoutCart() {
     })
     return price_promotion;
   }
+
+  useEffect(() => {
+     setAddressForm({...addressForm, name: `${lastName} ${firstName}`})
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [firstName])
+
 
   useEffect(() => {
     setRoutes(JSON.parse(localStorage.getItem(DISTANCE)));
@@ -209,7 +266,7 @@ function CheckoutCart() {
     });
     setConvertProduct(arrayProduct);
     dispatch(getPaymentMethod())
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = async (event) => {
@@ -229,10 +286,10 @@ function CheckoutCart() {
       console.log(error);
     }
   };
- 
+
   return (
     <>
-      {metaMaskModal && <MetaMaskModal totalPrice={(totalPrice + DeliveryFee(Number(routes?.distance / 1000).toFixed(1), totalPrice))} paymentCash={paymentCash} onHide={setMetaMaskModal} />}
+      {metaMaskModal && <MetaMaskModal totalPrice={(totalPrice + DeliveryFee(Number(routes?.distance / 1000).toFixed(1), totalPrice))} paymentCash={paymentBlock} onHide={setMetaMaskModal} />}
       {addressDelivery && <AddressDeliveryModal addressForm={addressForm} setAddressForm={setAddressForm} onHide={setaddressDelivery} setRoutes={setRoutes} />}
       <div className="mb-10">
         {/* <h3 className="text-lg text-gray-600">Vui lòng thanh toán trong {CountdownTimer(FITTEEN_MINUTES)} </h3> */}
@@ -285,7 +342,7 @@ function CheckoutCart() {
               <div className="detail-info">
                 <div className="mt-4">
                   <span className="text-slate-600">Người nhận:</span>
-                  <span className="name-user">{` ${addressForm.name ? addressForm.name : lastName + ' ' + firstName}`}</span>
+                  <span className="name-user">{` ${addressForm.name}`}</span>
                 </div>
                 <div className="my-2">
                   <span className="text-slate-600">Địa chỉ nhận hàng:</span>{" "}

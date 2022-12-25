@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import "./DetailBill.css";
-import { Row, Col, Modal, message, Button } from "antd";
+import { Row, Col, Modal, message } from "antd";
 import { useParams } from "react-router-dom";
 import { CheckOutContext } from "../../../../contexts/CheckOutContext";
 import { ProductContext } from "../../../../contexts/ProductContext";
@@ -8,7 +8,7 @@ import LoadingPage from "../../LoadingPage";
 import { ExclamationCircleOutlined, QrcodeOutlined } from "@ant-design/icons";
 import FormatDate from "../../../../utils/FormatDate";
 import CheckStatusOrder from "../../../../utils/CheckStatusOrder";
-import BillItem from "../BillItem/BillItem";
+import { X } from 'react-feather'
 
 const { confirm } = Modal;
 function DetailBill() {
@@ -105,19 +105,29 @@ function DetailBill() {
   );
   return (
     <div className="detail-bill">
-      <Modal
-        title="Mã  QR code"
-        visible={isModalVisible}
-        footer={
-          <Button key="ok" type="primary" onClick={handleOk}>
-            Đóng
-          </Button>
-        }
-      >
-        <div>
-          <div dangerouslySetInnerHTML={{ __html: billItem?.attributes?.qrCode }} />
+      {isModalVisible && (
+        <div className="fixed inset-0 z-50 flex items-end bg-black bg-opacity-10 sm:items-center sm:justify-center appear-done enter-done">
+          <div className="px-5 w-full box-border h-3/5 py-4 overflow-hidden bg-white rounded-t-lg  sm:rounded-lg sm:m-4 sm:max-w-md appear-done enter-done">
+            <div className='relative h-full'>
+              <div>
+                <div>
+                  <div className="flex justify-between mb-5 mt-2 items-center">
+                    <div className="capitalize font-bold text-slate-700 text-lg">
+                      Mã QR đơn hàng
+                    </div>
+                    <div className='cursor-pointer' onClick={handleOk}>
+                      <X size={22} />
+                    </div>
+                  </div>
+                  <div className="mt-10">
+                    <div className="flex justify-center" dangerouslySetInnerHTML={{ __html: billItem?.attributes?.qrCode }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </Modal>
+      )}
       <h2 style={{ color: "var(--color-font-two)", fontWeight: "500" }}>
         Chi tiết đơn hàng
       </h2>
@@ -160,7 +170,7 @@ function DetailBill() {
                   </div>
                   <div>
                     <span>Địa chỉ:</span>
-                    <span className="address-delivery">{billItem?.attributes?.address}</span>
+                    <span className="address-delivery">{billItem?.attributes?.address}, Thành phố Đà Nẵng</span>
                   </div>
                 </div>
               </div>
@@ -205,7 +215,7 @@ function DetailBill() {
           <Row className=" my-4">
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <span className="font-medium">Lưu chú</span>
-              <textarea value={billItem?.attributes?.note} rows={3} className="mt-2 w-full border p-2 rounded-md" disabled>{billItem?.attributes?.note}</textarea>
+              <textarea value={billItem?.attributes?.note} rows={2} className="mt-2 w-full border p-2 rounded-md" disabled>{billItem?.attributes?.note}</textarea>
             </Col>
           </Row>
           <Row className="card-thank">
@@ -276,7 +286,7 @@ function DetailBill() {
                     <div className="column-title">Phí vận chuyển</div>
                   </Col>
                   <Col span={12}>
-                    <div className="number-column">
+                    <div className="number-column text-red-500">
                       {formatPrice.format(billItem?.attributes?.delivery_fee)}
                     </div>
                   </Col>
@@ -287,7 +297,7 @@ function DetailBill() {
                   </Col>
                   <Col span={12}>
                     <div className="number-column text-red-500">
-                      -{formatPrice.format(billItem?.attributes?.discount)}
+                      - {formatPrice.format(billItem?.attributes?.discount)}
                     </div>
                   </Col>
                 </Row>

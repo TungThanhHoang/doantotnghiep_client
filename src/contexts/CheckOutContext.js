@@ -30,6 +30,25 @@ const CheckOutContextProvider = ({ children }) => {
     }
   };
 
+  const checkoutMetaMask = async (formProduct, ...attributes) => {
+    setLoadingBill(true)
+    try {
+      const response = await axios.post(`${API_URL}/bills/metamask-payment`, { data: formProduct, attributes }, {
+        headers: {
+          Authorization: `Bearer ${getToken}`,
+        },
+      });
+      if (response.data) {
+        // setPayment(response.data);
+        setLoadingBill(false);
+      }
+      return response.data;
+    } catch (error) {
+      setLoadingBill(false);
+      console.log(error);
+    }
+  };
+
   const checkoutByStripe = async (formProduct) => {
     setLoadingBill(true)
     try {
@@ -144,7 +163,8 @@ const CheckOutContextProvider = ({ children }) => {
     handleLoadBillDeivery,
     updateBillStateCancel,
     checkoutByStripe,
-    confirmCheckOut
+    confirmCheckOut,
+    checkoutMetaMask
   };
   return (
     <CheckOutContext.Provider value={contextData}>

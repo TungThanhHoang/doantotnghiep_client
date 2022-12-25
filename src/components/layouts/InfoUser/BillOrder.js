@@ -31,6 +31,7 @@ export default function BillOrder() {
 
   useEffect(() => {
     handleLoadBillDeivery();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stateBill]);
   
   useEffect(() => {
@@ -55,6 +56,7 @@ export default function BillOrder() {
     if (activeTabKey === "6") {
       setStateBill("Đã hủy");
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTabKey]);
 
   return (

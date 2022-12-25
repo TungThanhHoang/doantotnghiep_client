@@ -45,7 +45,7 @@ const MetaMaskModal = ({ totalPrice, paymentCash, onHide }) => {
     const tranferPrice = async () => {
         await axios.get(url).then(res => {
             let current_price = res.data[0].current_price;
-            let tranferPrice = (Number(totalPrice) / Number(current_price)).toFixed(4);
+            let tranferPrice = (Number(totalPrice) / Number(current_price)).toFixed(5);
             setPriceTransfer(tranferPrice);
             setCoinMarket(res.data?.[0])
         })
@@ -70,7 +70,7 @@ const MetaMaskModal = ({ totalPrice, paymentCash, onHide }) => {
     // console.log(data);    
 
     const sendTransaction = async () => {
-        if (Number(balance)?.toFixed(4) <= Number(priceTranfer)) {
+        if (Number(balance)?.toFixed(5) <= Number(priceTranfer)) {
             toast.error('Số dư không đủ !', {
                 position: "top-right",
                 autoClose: 3000,
@@ -87,51 +87,34 @@ const MetaMaskModal = ({ totalPrice, paymentCash, onHide }) => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         ethers.utils.getAddress(account);
-        const tx = await signer.sendTransaction({
+        await signer.sendTransaction({
             to: '0xAFBE11B598A56b067FA5B3f6362F1BaD74fC810A',
             value: ethers.utils.parseEther(priceTranfer)
+        }).then(async (res) => {
+            toast.success('Giao dịch thành công !', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            await paymentCash();
+            setIsLoading(false)
+        }).catch((err) => {
+            toast.error('❗Giao dịch không thành công !', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            setIsLoading(false)
+            console.log(err)
         })
-        console.log(tx);
-        // let params = [{
-        //     from: account,
-        //     to: '0xAFBE11B598A56b067FA5B3f6362F1BaD74fC810A',
-        //     value: ethers.utils.parseEther("0.001")
-        //     // value: web3.utils.toWei(priceTranfer.toString(18), 'ether')
-        // }]
-
-        // web3.eth.sendTransaction({
-        //     from: '0xA7aC24b8069dC9283df68c6024B88008F34E6Dad',
-        //     to: '0xAFBE11B598A56b067FA5B3f6362F1BaD74fC810A',
-        //     value: '1000000',
-        //  })
-
-        // await window.ethereum.request({ method: 'eth_sendTransaction', params })
-        //     .then(async (res) => {
-        //         toast.success('Giao dịch thành công !', {
-        //             position: "top-right",
-        //             autoClose: 3000,
-        //             hideProgressBar: false,
-        //             closeOnClick: true,
-        //             pauseOnHover: true,
-        //             draggable: true,
-        //             progress: undefined,
-        //         });
-        //         await paymentCash();
-        //         setIsLoading(false)
-        //     })
-        //     .catch((err) => {
-        //         toast.error('❗Giao dịch không thành công !', {
-        //             position: "top-right",
-        //             autoClose: 3000,
-        //             hideProgressBar: false,
-        //             closeOnClick: true,
-        //             pauseOnHover: true,
-        //             draggable: true,
-        //             progress: undefined,
-        //         });
-        //         setIsLoading(false)
-        //         console.log(err)
-        //     })
     }
 
     const checkStatusConnect = () => {
@@ -174,7 +157,7 @@ const MetaMaskModal = ({ totalPrice, paymentCash, onHide }) => {
                                         </div>
                                         <div className='mt-4'>
                                             <span className='text-md font-semibold mr-4'>Số dư ví: </span>
-                                            <span className='font-bold back text-xl text-gray-600'>{Number(balance)?.toFixed(4)}</span>
+                                            <span className='font-bold back text-xl text-gray-600'>{Number(balance)?.toFixed(5)}</span>
                                         </div>
                                         <div className='mt-4 flex items-center'>
                                             <span className='text-md font-semibold mr-4'>Số tiền cần phải thanh toán: </span>

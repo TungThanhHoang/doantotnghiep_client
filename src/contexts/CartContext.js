@@ -48,43 +48,47 @@ const CartContextProvider = ({ children }) => {
     const item = cartItem?.find((idItem) => idItem.product.id === productId);
     try {
       setIsLoading(true);
-      if (item) {
-        const response = await axios.put(
-          `${API_URL}/items/${item.id}`,
-          {
-            data: {
-              quantity: parseInt(item.quantity) + parseInt(quantityId)
-            }
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${getToken}`,
+      if (item.quantity <= 15 || Number(item.quantity) + Number(quantityId) <= 15) {
+        if (item) {
+          const response = await axios.put(
+            `${API_URL}/items/${item.id}`,
+            {
+              data: {
+                quantity: parseInt(item.quantity) + parseInt(quantityId)
+              }
             },
+            {
+              headers: {
+                Authorization: `Bearer ${getToken}`,
+              },
+            }
+          );
+          if (response.data) {
+            setIsLoading(false);
+            loadItemCart();
           }
-        );
-        if (response.data) {
-          setIsLoading(false);
-          loadItemCart();
+        } else {
+          const response = await axios.post(
+            `${API_URL}/items`,
+            {
+              data: {
+                product: productId,
+                quantity: quantityId,
+              }
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${getToken}`,
+              },
+            }
+          );
+          if (response.data) {
+            setIsLoading(false);
+            loadItemCart();
+          }
         }
       } else {
-        const response = await axios.post(
-          `${API_URL}/items`,
-          {
-            data: {
-              product: productId,
-              quantity: quantityId,
-            }
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${getToken}`,
-            },
-          }
-        );
-        if (response.data) {
-          setIsLoading(false);
-          loadItemCart();
-        }
+        alert("Đã đạt tối đa số lượng")
       }
     } catch (error) {
       console.log(error.data);
@@ -93,7 +97,7 @@ const CartContextProvider = ({ children }) => {
 
   const increaseQuanlity = async (itemId, quantity) => {
     try {
-      if (quantity < 10) {
+      if (quantity < 15) {
         setIsLoading(true);
         await axios
           .put(
@@ -114,9 +118,9 @@ const CartContextProvider = ({ children }) => {
               return res.data
             }
           });
-          return "done";
+        return "done";
       } else {
-        alert("Đã đạt tối thiểu số lượng!");
+        alert("Đã đạt tối đa số lượng!");
       }
     } catch (error) {
       console.log(error);
@@ -142,7 +146,7 @@ const CartContextProvider = ({ children }) => {
               loadItemCart();
             }
           })
-          return "done";
+        return "done";
       } else {
         alert("Đã đạt tối thiểu số lượng!");
       }

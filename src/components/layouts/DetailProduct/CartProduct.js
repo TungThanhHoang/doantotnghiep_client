@@ -32,6 +32,7 @@ function CardProduct({
   const [countNumber, setCountNumber] = useState(1);
   const handleAddProduct = async (productId, quanlity) => {
     const addCart = await addProductToCart(productId, quanlity);
+    console.log(addCart);
     if (addCart) {
       message.success("Thêm sản phẩm thành công", 1);
     }
@@ -120,13 +121,13 @@ function CardProduct({
                   <div className="flex">
                     <button
                       color="warning"
-                      onClick={() => setCountNumber(countNumber - 1)}
+                      onClick={() => setCountNumber((prev) => prev > 1 ? countNumber - 1 : 1)}
                       className="w-12 h-12 border font-bold hover:bg-slate-50 rounded-l-md inline-grid items-center"
                     >
                       <MinusOutlined />
                     </button>
                     <div className="w-16 h-12 flex items-center justify-center font-bold border">{countNumber}</div>
-                    <button className="border w-12 h-12 font-bold hover:bg-slate-50 rounded-r-md inline-grid items-center" onClick={() => setCountNumber(countNumber + 1)}>
+                    <button className="border w-12 h-12 font-bold hover:bg-slate-50 rounded-r-md inline-grid items-center" onClick={() => setCountNumber((prev) => prev < 15 ? countNumber + 1 : 15)}>
                       <PlusOutlined />
                     </button>
                   </div>
