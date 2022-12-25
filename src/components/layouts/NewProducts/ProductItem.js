@@ -59,7 +59,7 @@ function ProductItem({
 
         <div className="title-product mt-3 ">{title}</div>
         <div className="main-product">
-          <div className="price-product font-normal text-slate-900 ">{formatPrice.format(promotion ? Promotion(promotion) * price : price)}</div>
+          <div className="price-product font-normal text-red-600 ">{formatPrice.format(promotion ? Promotion(promotion) * price : price)}</div>
           {promotion !== null && <div className="font-normal ml-2 line-through text-slate-500 text-xs ">{formatPrice.format(price)}</div>}
         </div>
         <div className="main-product">

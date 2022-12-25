@@ -50,7 +50,7 @@ function CardProduct({
           <div className="p-3">
             <div className="title-product font-medium text-lg mt-3 ">{title}</div>
             <div className="main-product flex items-center py-2 ">
-              <div className="">{formatPrice.format(promotion ? Promotion(promotion) * price : price)}</div>
+              <div className="text-red-600">{formatPrice.format(promotion ? Promotion(promotion) * price : price)}</div>
               {promotion !== null && <div className="font-normal ml-2 line-through text-slate-500 text-xs ">{formatPrice.format(price)}</div>}
             </div>
             <div className="main-product">

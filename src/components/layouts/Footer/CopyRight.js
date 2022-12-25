@@ -14,7 +14,7 @@ function CopyRight() {
           <Col md={24} lg={8}>
             <div className="hotline">
               <div className="icon-phone">
-                <PhoneOutlined style={{ fontSize: "32px" }} />
+                <PhoneOutlined style={{ fontSize: 32 }} />
               </div>
               <div>
                 <div className="phone-us">0365781235</div>

@@ -9,3 +9,4 @@ export const LOCAL_TOKEN_CART_ITEM = "_cartItem ";
 export const LOCAL_TOKEN_NAV = "_nav ";
 export const MARKET = "_marketSelect";
 export const DISTANCE = "_distance";
+export const FITTEEN_MINUTES = 15 * 60 * 1000 + new Date().getTime();

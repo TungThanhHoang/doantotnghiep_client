@@ -96,6 +96,12 @@ function DetailCart() {
       history.push(local);
     }
   };
+
+  useEffect(() => {
+    setCheckedState([...cartItem].fill(false))
+  }, [cartItem])
+  
+
   return (
     <div className="detail-cart">
       <Row>
@@ -131,6 +137,15 @@ function DetailCart() {
                     <div>Thao Tác</div>
                   </div>
                   <div className="list-product">
+                    {/* <Row className="product-cart__item">
+                      <Col xs={11} sm={8} md={5} lg={5} xl={5} className="info-product">
+                        <input
+                          type="checkbox"
+                          checked={true}
+                        />
+                        <span className="text-md font-semibold">Tất cả</span>
+                      </Col>
+                    </Row> */}
                     {cartItem.map((item, index) => {
                       return (
                         <ListProductCart
@@ -162,7 +177,7 @@ function DetailCart() {
                   {formatPrice.format(totalPrice)}
                 </div>
               </div>
-              <button className="bg-yellow-500 text-white hover:bg-yellow-600" onClick={() => handleCheckProduct()}>Mua hàng</button>
+              <button className="bg-yellow-400 text-white hover:bg-yellow-500" onClick={() => handleCheckProduct()}>Mua hàng</button>
             </div>
           </div>
         </Col>

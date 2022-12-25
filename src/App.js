@@ -14,6 +14,7 @@ import Product from "./pages/Product";
 import Category from "./pages/Category";
 import ScrollOnTop from "./components/layouts/ScrollOnTop";
 import { ToastContainer } from 'react-toastify';
+import OrderFaill from "./pages/OrderFaill";
 function App() {
   const history = useHistory();
   return (
@@ -47,6 +48,11 @@ function App() {
             exact
             path="/order-success"
             component={OrderSuccess}
+          />
+          <ProtectRouter
+            exact
+            path="/order-cancel"
+            component={OrderFaill}
           />
           <ProtectRouter
             exact

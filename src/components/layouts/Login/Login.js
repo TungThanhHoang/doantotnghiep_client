@@ -41,7 +41,7 @@ export default function Login() {
         });
         return null;
       }
-      await getLatLngLocation(`${sendData?.user?.street}, ${sendData?.user?.ward}, ${sendData?.user?.distinct}, ${sendData?.user?.city}`);
+      // await getLatLngLocation(`${sendData?.user?.street}, ${sendData?.user?.ward}, ${sendData?.user?.distinct}, ${sendData?.user?.city}`);
     } catch (error) {
       console.error(error);
     }

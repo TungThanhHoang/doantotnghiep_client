@@ -131,7 +131,7 @@ export default function Navbar() {
       ) : (
         ""
       )}
-      <Link to="/cart" className="cart-view bg-yellow-300 text-white hover:bg-yellow-400 hover:text-white">
+      <Link to="/cart" className="cart-view bg-yellow-400 text-white hover:bg-yellow-500 hover:text-white">
         Xem Giỏ Hàng
       </Link>
     </div>
@@ -189,7 +189,7 @@ export default function Navbar() {
           <div className="navbar">
             <div onClick={() => setMenuState(!MenuState)} className="icon-menu">
               <MenuOutlined
-                style={{ color: "var(--color-footer)", fontSize: "20px" }}
+                style={{ color: "var(--color-footer)", fontSize: 20 }}
               />
             </div>
             <div className="logo-brand">
@@ -252,10 +252,10 @@ export default function Navbar() {
           <div className="location-user">
             <div className="title-location">
               <MapPin
-                style={{ color: "orange ", marginRight: "10px" }}
+                style={{ color: "orange ", marginRight: 10 }}
                 size={18}
               />
-              <div style={{ fontWeight: "500", fontSize: "15px" }}>
+              <div style={{ fontWeight: "500", fontSize: 10 }}>
                 Địa điểm
               </div>
             </div>

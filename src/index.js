@@ -10,6 +10,7 @@ import CategoryContextProvider from "./contexts/CategoryContext";
 import SearchContextProvider from "./contexts/SearchContext";
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import { MetaMaskProvider } from "metamask-react";
 
 ReactDOM.render(
   <AuthContextProvider>
@@ -20,7 +21,9 @@ ReactDOM.render(
             <CheckOutContextProvider>
               <SearchContextProvider>
                 {/* <React.StrictMode> */}
+                <MetaMaskProvider>
                 <App />
+                </MetaMaskProvider>
                 {/* </React.StrictMode> */}
               </SearchContextProvider>
             </CheckOutContextProvider>

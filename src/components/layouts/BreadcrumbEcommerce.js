@@ -9,7 +9,7 @@ function BreadCrumbEcommerce() {
         <Breadcrumb>
           <Breadcrumb.Item>
             <Link to="/">
-              <HomeOutlined style={{ fontSize: "18px" }} />
+              <HomeOutlined style={{ fontSize: 18 }} />
               <span>Trang Chủ</span>
             </Link>
           </Breadcrumb.Item>

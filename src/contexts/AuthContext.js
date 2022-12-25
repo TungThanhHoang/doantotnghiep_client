@@ -54,12 +54,15 @@ const AuthContextProvider = ({ children }) => {
       const response = await axios.post(`${API_URL}/auth/local`, formLogin);
       if (response.data.user) {
         localStorage.setItem(LOCAL_TOKEN_USER, response.data.jwt);
+        localStorage.setItem(LATITUDE, response.data?.user?.lat)
+        localStorage.setItem(LONGITUDE, response.data?.user?.lng)
         setLoading(false);
       }
       await loadUser();
       return response.data;
     } catch (error) {
       setLoading(false);
+      console.log(error)
       return error.response.data;
     }
   };
@@ -126,8 +129,8 @@ const AuthContextProvider = ({ children }) => {
       })
       if (response.data.Results.length) {
         setLoading(false);
-        localStorage.setItem(LATITUDE, response.data?.Results[0]?.latitude)
-        localStorage.setItem(LONGITUDE, response.data?.Results[0]?.longitude)
+        // localStorage.setItem(LATITUDE, response.data?.Results[0]?.latitude)
+        // localStorage.setItem(LONGITUDE, response.data?.Results[0]?.longitude)
       }
       return response.data;
     } catch (error) {

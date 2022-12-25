@@ -8,6 +8,8 @@ import Slider from "react-slick";
 import { CartContext } from "../../../contexts/CartContext";
 import Promotion from '../../../utils/Promotion'
 import { Link } from "react-router-dom";
+import ReactMarkdown from 'react-markdown'
+
 function CardProduct({
   item: {
     id,
@@ -28,14 +30,13 @@ function CardProduct({
 }) {
   const { addProductToCart } = useContext(CartContext);
   const [countNumber, setCountNumber] = useState(1);
-  const handleAddProduct = (productId, quanlity) => {
-    const addCart = addProductToCart(productId, quanlity);
+  const handleAddProduct = async (productId, quanlity) => {
+    const addCart = await addProductToCart(productId, quanlity);
     if (addCart) {
       message.success("Thêm sản phẩm thành công", 1);
     }
     return addCart;
   };
-
   const settings = {
     customPaging: function (i) {
       return (
@@ -59,7 +60,7 @@ function CardProduct({
         <Col xs={24} sm={24} md={24} lg={10} xl={10}>
           <div className="detail-product__left mt-4">
             {promotion && (
-              <div className="absolute z-50 left-3">
+              <div className="absolute z-20 left-3">
                 <span className="px-3 py-1.5 rounded-sm text-sm font-medium bg-yellow-400 text-slate-600">Sale!</span>
                 <div className="mt-4"></div>
                 <span className="px-3 py-1.5 rounded-sm text-sm font-medium bg-yellow-400 text-slate-700">{promotion?.split(" ")[1]}</span>
@@ -95,16 +96,18 @@ function CardProduct({
                   <span className="font-medium text-base ml-2">{titleCategory}</span>
                 </div>
                 <div className="flex items-center mb-4">
-                  <Rate defaultValue="4" style={{ fontSize: "15px" }} />
+                  <Rate defaultValue="4" style={{ fontSize: 15 }} />
                   <span className="feed-back__title">2 BÀI ĐÁNH GIÁ</span>
                 </div>
               </div>
               <div className="flex justify-start mr-4 grow">
                 <div className="mr-2 text-gray-500 line-through text-lg">{promotion && formatPrice.format(price)}</div>
-                <div className="text-slate-700 font-medium text-lg">{formatPrice.format(promotion ? Promotion(promotion) * price : price)}</div>
+                <div className="text-red-600 font-medium text-lg">{formatPrice.format(promotion ? Promotion(promotion) * price : price)}</div>
               </div>
               <div className="mt-3">
-                {content}
+                <ReactMarkdown>
+                  {content}
+                </ReactMarkdown>
               </div>
               <div className="weight-product">
                 <div className="text-md">Trọng lượng:</div>

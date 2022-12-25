@@ -50,7 +50,7 @@ function CategoryProductItem({
           <div className="padding-content">
             <div className="title-product mt-5">{title}</div>
             <div className="main-product flex items-center my-2">
-              <div className="font-normal text-slate-900 ">{formatPrice.format(promotion ? Promotion(promotion) * price : price)}</div>
+              <div className="font-normal text-red-600 ">{formatPrice.format(promotion ? Promotion(promotion) * price : price)}</div>
               {promotion !== null && <div className="font-normal ml-2 line-through text-slate-500 text-xs ">{formatPrice.format(price)}</div>}
             </div>
             <div className="main-product">

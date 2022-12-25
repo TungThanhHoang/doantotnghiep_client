@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./NotifyOrder.css";
 import Lottie from "react-lottie";
 import { Link, useLocation } from "react-router-dom";
-import loading from '../../../assets/orderSuccess-2.json'
+import loading from '../../../assets/order-cancel.json'
 import { CheckOutContext } from "../../../contexts/CheckOutContext";
 
 const defaultOptions = {
@@ -14,7 +14,7 @@ const defaultOptions = {
   },
 };
 
-function NotifyOrder() {
+function NotifyOrderFaill() {
   const location = useLocation();
 
   const searchParams = new URLSearchParams(location?.search);
@@ -23,33 +23,29 @@ function NotifyOrder() {
 
   const [order, setOrder] = useState(location?.state?.code);
 
- console.log(searchParams.get('session_id'))
-  useEffect(() => {
-    if (!searchParams.get('session_id')) {
-      return null;
-    }
-    const confirmByCheckOut = async () => {
-      try {
-        const result = await confirmCheckOut({ "checkout_session": searchParams.get('session_id') })
-        setOrder(result.id_code)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    confirmByCheckOut()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+
+  // useEffect(() => {
+  //   if (!searchParams.get('session_id')) {
+  //     return null;
+  //   }
+  //   const confirmByCheckOut = async () => {
+  //     const result = await confirmCheckOut({ "checkout_session": searchParams.get('session_id') })
+  //     setOrder(result.id_code)
+  //   }
+  //   confirmByCheckOut()
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
 
   return (
     <div className="notify-success">
-      <div>
-        <Lottie options={defaultOptions} height={350} width={350} />
+      <div className="my-16">
+        <Lottie options={defaultOptions} height={150} width={150} />
       </div>
-      <div className="title-success">{ searchParams.get('session_id') ? 'Đơn hàng đã được đặt hàng thành công' : 'Xác nhận đặt hàng thành công' }</div>
-      <div>
+      <div className="title-success mt-10">Đơn hàng chưa được thanh toán</div>
+      {/* <div>
         <span className="text-slate-500">Mã đơn hàng:</span><span className="ml-2 text-red-600">#{order}</span>
-      </div>
-      <div className="flex items-center mt-5 space-x-4">
+      </div> */}
+      <div className="flex items-center mt-6 space-x-4">
         <button className="border hover:bg-yellow-400 border-yellow-300 bg-yellow-300 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-8 py-3 text-center inline-flex items-center mr-2 mb-2">
           <Link className="text-slate-800" to="/user/bill"> Chi tiết đơn hàng</Link>
         </button>
@@ -61,4 +57,4 @@ function NotifyOrder() {
   );
 }
 
-export default NotifyOrder;
+export default NotifyOrderFaill;

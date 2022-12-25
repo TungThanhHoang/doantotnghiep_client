@@ -48,19 +48,19 @@ function ListProductCart({
         <div className="name-product font-medium capitalize">{title}</div>
         <div className="flex justify-end mr-4 grow">
           <div className="mr-2 text-gray-500 line-through">{promotion && formatPrice.format(price)}</div>
-          <div className="text-slate-700 font-medium text-sm">{formatPrice.format(promotion ? Promotion(promotion) * price : price)}</div>
+          <div className="text-red-600 font-medium text-sm">{formatPrice.format(promotion ? Promotion(promotion) * price : price)}</div>
         </div>
         <div className="quanlity-product">
           <button
             onClick={() => decreaseQuanlity(id, quantity)}
-            className="btn-increase bg-yellow-500 text-white"
+            className="btn-increase bg-yellow-400 text-white"
           >
             -
           </button>
           <input disabled type="text" value={quantity} />
           <button
             onClick={() => increaseQuanlity(id, quantity)}
-            className="btn-decrease bg-yellow-500 text-white"
+            className="btn-decrease bg-yellow-400 text-white"
           >
             +
           </button>

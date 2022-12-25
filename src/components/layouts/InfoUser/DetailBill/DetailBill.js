@@ -231,7 +231,7 @@ function DetailBill() {
           <Row>
             <Col>
               <div className="view-qr" onClick={() => showModal()}>
-                <QrcodeOutlined style={{ fontSize: "20px" }} />
+                <QrcodeOutlined style={{ fontSize: 20 }} />
                 <div className="title-qr">Xem mã QR</div>
               </div>
             </Col>
