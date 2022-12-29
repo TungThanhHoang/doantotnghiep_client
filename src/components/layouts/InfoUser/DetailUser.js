@@ -24,9 +24,13 @@ function DetailUser() {
       ward: selectWard,
     });
   };
-
+  // firstName, lastName, street, phone, id, email, distinct, ward
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (firstName === "" || lastName === "" || street === "" || phone === "" || email === "" || distinct === null || ward === null) {
+      message.error("Không được để trống !");
+      return;
+    }
     try {
       const sendData = await updateUser(
         { ...infoUser, distinct: selectDistinct, ward: selectWard },
@@ -34,6 +38,8 @@ function DetailUser() {
       );
       if (sendData) {
         message.success("Cập nhật thành công !");
+      } else {
+        message.error("Không được để trống !");
       }
     } catch (error) {
       console.log(error);

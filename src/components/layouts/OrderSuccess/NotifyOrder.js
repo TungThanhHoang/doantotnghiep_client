@@ -16,7 +16,7 @@ const defaultOptions = {
 
 function NotifyOrder() {
   const location = useLocation();
-
+  console.log('location', location);
   const searchParams = new URLSearchParams(location?.search);
 
   const { confirmCheckOut } = useContext(CheckOutContext);
@@ -45,7 +45,7 @@ function NotifyOrder() {
       <div>
         <Lottie options={defaultOptions} height={350} width={350} />
       </div>
-      <div className="title-success">{ searchParams.get('session_id') ? 'Đơn hàng đã được đặt hàng thành công' : 'Xác nhận đặt hàng thành công' }</div>
+      <div className="title-success">{ searchParams.get('session_id') || location?.state?.success  ? 'Đơn hàng đã được đặt hàng thành công' : 'Xác nhận đặt hàng thành công' }</div>
       <div>
         <span className="text-slate-500">Mã đơn hàng:</span><span className="ml-2 text-red-600">#{order}</span>
       </div>

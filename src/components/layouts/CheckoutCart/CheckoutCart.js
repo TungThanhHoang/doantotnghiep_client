@@ -28,8 +28,6 @@ let opts = {
 
 const code = RandomCodeDelivery(10000000, 100000000);
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY || "")
-
 function CheckoutCart() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -77,6 +75,7 @@ function CheckoutCart() {
 
   stateItem.forEach(item => product_stripe.push({ title: item.product.title, price: item?.product.price, quantity: item?.quantity, image: item?.product?.picture[0]?.url }));
 
+  const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY || "")
   // payment stripe
   const paymentStripe = async () => {
     let qrCode = '';
@@ -90,10 +89,11 @@ function CheckoutCart() {
         product: convertProduct,
         payment_method: checked,
         discount: calculatorPromotion(),
+        delivery_fee: DeliveryFee(Number(routes?.distance / 1000).toFixed(1), totalPrice),
         sub_total: (totalPrice + calculatorPromotion()),
         total: (totalPrice + DeliveryFee(Number(routes?.distance / 1000).toFixed(1), totalPrice))
       }),
-      opts
+      opts  
     )
       .then((res) => {
         qrCode = res;
@@ -138,6 +138,7 @@ function CheckoutCart() {
         product: convertProduct,
         payment_method: checked,
         discount: calculatorPromotion(),
+        delivery_fee: DeliveryFee(Number(routes?.distance / 1000).toFixed(1), totalPrice),
         sub_total: (totalPrice + calculatorPromotion()),
         total: (totalPrice + DeliveryFee(Number(routes?.distance / 1000).toFixed(1), totalPrice))
       }),
@@ -188,6 +189,7 @@ function CheckoutCart() {
         product: convertProduct,
         payment_method: checked,
         discount: calculatorPromotion(),
+        delivery_fee: DeliveryFee(Number(routes?.distance / 1000).toFixed(1), totalPrice),
         sub_total: (totalPrice + calculatorPromotion()),
         total: (totalPrice + DeliveryFee(Number(routes?.distance / 1000).toFixed(1), totalPrice))
       }),
@@ -219,7 +221,7 @@ function CheckoutCart() {
       loadItemCart();
       const local = {
         pathname: "/order-success",
-        state: { code },
+        state: { success: true, code },
       };
       history.push(local);
     }
@@ -273,9 +275,9 @@ function CheckoutCart() {
     event.preventDefault();
     try {
       switch (checked) {
-        case 1: paymentCash()
+        case 1: paymentCash();
           break;
-        case 2: paymentStripe()
+        case 2: paymentStripe();
           break;
         case 3: paymentMetaMask();
           break;

@@ -50,7 +50,7 @@ export default function Register({ changeStateModal }) {
     if (firstName === "" || lastName === "" || phone === "" || password === "" || email === "" ||
       confirmPassword === "" || selectDistinct === "" || selectDistinct === null || selectWard === "" ||
       selectWard === null || street === "") {
-      toast.error('❗ Vui lòng nhập đúng định dạng!', {
+      toast.error('❗ Vui lòng không để trống !', {
         position: "top-right",
         autoClose: 4000,
         hideProgressBar: false,

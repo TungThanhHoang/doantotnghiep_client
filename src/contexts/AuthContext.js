@@ -107,6 +107,7 @@ const AuthContextProvider = ({ children }) => {
     } catch (error) {
       setLoading(false);
       console.log(error);
+      return 'error';
     }
   };
 

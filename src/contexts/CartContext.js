@@ -45,16 +45,16 @@ const CartContextProvider = ({ children }) => {
   };
 
   const addProductToCart = async (productId, quantityId) => {
-    const item = cartItem?.find((idItem) => idItem.product.id === productId);
+    const item = cartItem.find((idItem) => idItem.product?.id === productId);
     try {
       setIsLoading(true);
-      if (item.quantity <= 15 || Number(item.quantity) + Number(quantityId) <= 15) {
+      if (!item || (item?.quantity <= 15 || Number(item?.quantity) + Number(quantityId) <= 15)) {
         if (item) {
           const response = await axios.put(
-            `${API_URL}/items/${item.id}`,
+            `${API_URL}/items/${item?.id}`,
             {
               data: {
-                quantity: parseInt(item.quantity) + parseInt(quantityId)
+                quantity: parseInt(item?.quantity) + parseInt(quantityId)
               }
             },
             {
